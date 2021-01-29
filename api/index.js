@@ -1,21 +1,10 @@
 const express = require('express');
 const router = express.Router();
-const user = require('../components/user')
-// import { Router } from 'express';
-// import { version } from '../package.json';
+const auth = require('../components/auth')
+const noti = require('../components/notification');
 
-router.use('/user', user);
-// export default () => {
-//     let api = Router();
-//     // auth
-//     api.use('/user', user);
-//     // resources
-//     api.use('/facets', requireAuth, facets.permissions(), facets.resource()); // using its api permissions
-//     // No resource. Perhaps show API metadata
-//     api.get('/', (req, res) => {
-//       res.json({ version });
-//     });
-  
-//     return api;
-//   }
+router.use('/auth', auth);
+
+router.use('/noti', noti);
+
 module.exports = router;

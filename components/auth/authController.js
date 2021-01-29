@@ -6,7 +6,7 @@ const jwtOptions = {}
 jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.secretOrKey = process.env.KEY_SECRET;
 
-const userServices = require('./userServices');
+const authServices = require('./authServices');
 
 module.exports.login = async (req, res, next) =>{
     const user = req.user;
@@ -26,22 +26,23 @@ module.exports.login = async (req, res, next) =>{
 module.exports.signUp = async(req, res , next) => {
     try {
         console.log("Vo signup");
-        const {username, password, name, phone, email} = req.body;
+        const {username, password, name, phone, email, identify_card, native_place, apartment_id, auth} = req.body;
         console.log("username: ", username);
-        const user = await userServices.getUserByUsername(username);
+        const user = await authServices.getUserByUsername(username);
         console.log("user: ",user);
         if(user){
 
             res.status(401).json({message:"user_exists"});
         }else{
             console.log("Vo else")
-            const newUser = await userServices.createUser(username, password, name, phone, email);
+            const newUser = await authServices.createUser(username, password, name, phone, email, identify_card, native_place, apartment_id, auth);
             // const newUser = await authService.getUserByUsername(username);
             console.log("đã vô: "+newUser);
             const payload = {username: newUser.username};
             const token = jwt.sign(payload, jwtOptions.secretOrKey);
             const infoUser = {id: newUser._id,username: newUser.username,name: newUser.name, 
-                phone: newUser.phone, email: newUser.email};
+                phone: newUser.phone, email: newUser.email, identify_card: newUser.identify_card,
+                native_place: newUser.native_place, apartment_id: newUser.apartment_id, auth: newUser.auth};
             res.json({message: "200OK", token: token, infoUser: infoUser});
         }
     } catch (error) {

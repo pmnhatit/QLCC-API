@@ -2,11 +2,15 @@ const express = require('express');
 const router = express.Router();
 
 const passPort = require('../../services/passport');
-const userController = require('./userController')
+const notiController = require('./notiController');
 
-router.post('/login',passPort.authenticate('local',{session: false}), userController.login);
+router.get('/all', notiController.getAllNotification);
 
-router.post('/signup', userController.signUp);
+router.post('/add', notiController.createNotification);
+
+// router.post('/login',passPort.authenticate('local',{session: false}), authController.login);
+
+// router.post('/signup', authController.signUp);
 
 // router.post('/infouser',passPort.authenticate('jwt',{session: false}),userController.getUserById);
 
