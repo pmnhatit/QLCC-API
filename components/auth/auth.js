@@ -2,7 +2,7 @@ const mongoose = require('mongoose');
 var db = mongoose.connection;
 
 //create schame
-var userschema = new mongoose.Schema({
+var authSchema = new mongoose.Schema({
     username: String,
     password: String,
     name: String,
@@ -19,6 +19,6 @@ var userschema = new mongoose.Schema({
         collection: 'user'
     });
 
-const user = db.useDb("qlcc").model("user", userschema);
+const user = db.useDb("qlcc").model("user", authSchema);
 
 module.exports = user;
