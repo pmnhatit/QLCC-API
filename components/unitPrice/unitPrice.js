@@ -4,7 +4,9 @@ var db = mongoose.connection;
 //create schame
 var unitPriceSchema = new mongoose.Schema({
     electric: Number,
-    water: Number
+    water: Number,
+    moto_fee: Number,
+    car_fee: Number
 },
     {
         collection: 'unit_price'

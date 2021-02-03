@@ -7,6 +7,8 @@ jwtOptions.jwtFromRequest = ExtractJwt.fromAuthHeaderAsBearerToken();
 jwtOptions.secretOrKey = process.env.KEY_SECRET;
 
 const authServices = require('./authServices');
+const apartmentServices = require('../apartment/apartServices');
+const { use } = require('../otherBill');
 
 module.exports.login = async (req, res, next) =>{
     const user = req.user;
@@ -17,10 +19,16 @@ module.exports.login = async (req, res, next) =>{
         console.log("vô else")
         // Generate jwt token for user, you can also add more data to sign, such as: role, birthday...
         const sign = {username: user.username, id: user.id}
-        // const token = jwt.sign(user.username, process.env.KEY_SECRET);
         const token = jwt.sign(sign, process.env.KEY_SECRET);
-        console.log("token controller:"+token);
-        res.json({message: "200OK", token: token, infoUser: user});
+        let apart_names = [];
+        for(let i=0; i<user.apartment_id.length; i++){
+            const apart_name = await apartmentServices.getApartmentById(user.apartment_id[i]);
+            apart_names[i] = apart_name.name;
+        }
+        const infoUser = {id: user.id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
+            identify_card: user.identify_card, native_place: user.native_place, apartment_id: user.apartment_id, 
+            apartment_name: apart_names, auth: user.auth};
+        res.json({token: token, infoUser: infoUser});
     }
 }
 module.exports.signUp = async(req, res , next) => {

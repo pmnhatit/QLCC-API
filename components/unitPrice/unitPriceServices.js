@@ -4,8 +4,8 @@ module.exports.getUnitPrice = async ()=>{
     const result = await unitPriceModel.find();
     return result[0];
 }
-module.exports.createUnitPrice = async (electric, water)=>{
-    const newUnitPrice = new unitPriceModel({electric, water});
+module.exports.createUnitPrice = async (electric, water, moto_fee, car_fee)=>{
+    const newUnitPrice = new unitPriceModel({electric, water, moto_fee, car_fee});
     return newUnitPrice.save();
 }
 module.exports.editUnitPrice = async (electric, water) =>{
