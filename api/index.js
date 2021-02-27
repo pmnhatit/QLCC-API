@@ -7,6 +7,7 @@ const elecBill = require('../components/electricBill');
 const waterBill = require('../components/waterBill');
 const otherBill = require('../components/otherBill');
 const apart = require('../components/apartment');
+const repair = require('../components/repair');
 
 router.use('/auth', auth);
 
@@ -21,5 +22,7 @@ router.use('/water-bill', waterBill);
 router.use('/other-bill', otherBill);
 
 router.use('/apart', apart);
+
+router.use('/repair', repair);
 
 module.exports = router;

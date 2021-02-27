@@ -3,18 +3,18 @@ var db = mongoose.connection;
 
 //create schame
 var otherBillSchema = new mongoose.Schema({
-    apart_id: String,
-    apart_management: Number,
-    parking_fees: Number,
-    maintenance_fee: Number,
-    service_charge: Number,
+    apart_id: String,//ma can ho
+    apart_management: Number,//phi quan ly chung cu
+    parking_fees: Number,//phi giu xe
+    maintenance_fee: Number,//phi bao tri
+    service_charge: Number,//phi dich vu
     other_fees: {
         type: Number,
         default: 0
-    },
+    },//phi khac
     month: Number,
     year: Number,
-    note: String
+    note: String//ghi chu
 },
     {
         collection: 'other_bill'

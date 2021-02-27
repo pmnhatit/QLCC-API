@@ -14,7 +14,7 @@ module.exports.login = async (req, res, next) =>{
     const user = req.user;
     console.log("user: ",user);
     if(user.message==="null"){
-        res.status(401).json({message:"username or password invalid"});
+        res.status(401);
     }else{
         console.log("vô else")
         // Generate jwt token for user, you can also add more data to sign, such as: role, birthday...

@@ -3,10 +3,10 @@ var db = mongoose.connection;
 
 //create schame
 var unitPriceSchema = new mongoose.Schema({
-    electric: Number,
-    water: Number,
-    moto_fee: Number,
-    car_fee: Number
+    electric: Number,//don gia tien dien
+    water: Number,//don gia tien nuoc
+    moto_fee: Number,//don gia tien gui xe may
+    car_fee: Number//don gia tien gui o to
 },
     {
         collection: 'unit_price'
