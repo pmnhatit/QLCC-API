@@ -6,7 +6,7 @@ const repairController = require('./repairController');
 
 router.get('/all', passPort.authenticate('jwt',{session: false}), repairController.getAllRepairNotices);
 
-router.get('/all/:user_id', passPort.authenticate('jwt',{session: false}), repairController.getAllRepairNoticesByUserId);
+router.get('/all/:apart_id', passPort.authenticate('jwt',{session: false}), repairController.getAllRepairNoticesForUser);
 
 router.post('/add', passPort.authenticate('jwt',{session: false}), repairController.createRepairNotice);
 

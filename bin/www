@@ -9,6 +9,7 @@ const dotenv = require('dotenv').config();
 var app = require('../app');
 var debug = require('debug')('qlcc-api:server');
 var http = require('http');
+let socketfunc = require('../services/socket/socket.io.js');
 
 /**
  * Get port from environment and store in Express.
@@ -26,6 +27,9 @@ var server = http.createServer(app);
 /**
  * Listen on provided port, on all network interfaces.
  */
+const io = require("socket.io")(server);
+
+io.on('connection', socket => socketfunc(io, socket));
 
 server.listen(port);
 server.on('error', onError);
@@ -90,3 +94,4 @@ function onListening() {
     : 'port ' + addr.port;
   debug('Listening on ' + bind);
 }
+module.exports = io;

@@ -9,10 +9,10 @@ module.exports.getAllRepairNotices = async (req, res, next)=>{
         res.status(500);
     }
 }
-module.exports.getAllRepairNoticesByUserId = async (req, res, next) =>{
+module.exports.getAllRepairNoticesForUser = async (req, res, next) =>{
     try {
-        const user_id = req.params.user_id;
-        const repair_notices = await repairServices.getAllRepairNoticesForUser(user_id);
+        const apart_id = req.params.apart_id;
+        const repair_notices = await repairServices.getAllRepairNoticesForUser(apart_id);
         res.json({data: repair_notices});
     } catch (error) {
         console.log("errors: ",error);
@@ -21,9 +21,9 @@ module.exports.getAllRepairNoticesByUserId = async (req, res, next) =>{
 }
 module.exports.createRepairNotice = async (req, res, next) =>{
     try {
-        const {title, content, appointment_date, apart_id, author, receiver} = req.body;
+        const {title, content, appointment_date, apart_id, author} = req.body;
         const repair_notice = await repairServices.createRepairNotice(title, content, appointment_date,
-            apart_id, author, receiver);
+            apart_id, author);
         res.status(201).json({data: repair_notice});
     } catch (error) {
         console.log("errors: ", error);

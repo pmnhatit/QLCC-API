@@ -9,7 +9,7 @@ var repairSchema = new mongoose.Schema({
     create_date: String,
     apart_id: String,//ma chung cu
     author: String,
-    receiver: String,
+    receiver: Number,//1: admin, 2: user
     is_read: Boolean
 },
     {
