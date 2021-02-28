@@ -10,6 +10,6 @@ router.get('/all/:apart_id', passPort.authenticate('jwt',{session: false}), repa
 
 router.post('/add', passPort.authenticate('jwt',{session: false}), repairController.createRepairNotice);
 
-router.put('/update', passPort.authenticate('jwt',{session: false}), repairController.changeStatusRepairNotice);
+router.put('/update-status', passPort.authenticate('jwt',{session: false}), repairController.changeStatusRepairNotice);
 
 module.exports = router;
