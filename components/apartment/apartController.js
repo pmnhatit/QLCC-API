@@ -10,6 +10,16 @@ module.exports.getApartmentById = async (req, res, next) =>{
         res.status(500);
     }
 }
+module.exports.getApartmentByIdUser = async (req, res, next) =>{
+    try {
+        const {id_user} = req.params;
+        const aparts_info = await apartServices.getApartmentsByIdUser(id_user);
+        res.json({data: aparts_info}); 
+    } catch (error) {
+        console.log("errors: ", error);
+        res.status(500);
+    }
+}
 module.exports.createApartment = async (req, res, next) =>{
     try {
         const {name, block} = req.body;

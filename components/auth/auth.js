@@ -13,7 +13,7 @@ var authSchema = new mongoose.Schema({
     apartment_id: [{
         type: String
     }],
-    auth: Number
+    auth: Number// 1: admin, 2: user
 },
     {
         collection: 'user'

@@ -6,6 +6,10 @@ module.exports.getUserByUsername = async (username) =>{
     const result = await authModel.findOne({username: username});
     return result;
 }
+module.exports.getUserById = async (id_user) =>{
+    const result = await authModel.findOne({'_id': id_user});
+    return result;
+}
 module.exports.createUser = async (username, password, name, phone, email, identify_card, native_place, apartment_id, auth) =>{
     console.log("Vo create");
     let hash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
