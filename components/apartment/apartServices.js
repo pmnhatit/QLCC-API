@@ -5,8 +5,8 @@ module.exports.getApartmentById = async (id) =>{
     const result = await apartmentModel.findOne({'_id': id});
     return result;
 }
-module.exports.getApartmentsByIdUser = async (id_user) =>{
-    const user = await authServices.getUserById(id_user);
+module.exports.getApartmentsByIdUser = async (user_id) =>{
+    const user = await authServices.getUserById(user_id);
     let aparts = [];
     for(let i=0; i<user.apartment_id.length; i++){
         const apart = await this.getApartmentById(user.apartment_id[i]);

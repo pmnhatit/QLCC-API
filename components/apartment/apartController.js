@@ -12,8 +12,8 @@ module.exports.getApartmentById = async (req, res, next) =>{
 }
 module.exports.getApartmentByIdUser = async (req, res, next) =>{
     try {
-        const {id_user} = req.params;
-        const aparts_info = await apartServices.getApartmentsByIdUser(id_user);
+        const {user_id} = req.params;
+        const aparts_info = await apartServices.getApartmentsByIdUser(user_id);
         res.json({data: aparts_info}); 
     } catch (error) {
         console.log("errors: ", error);
