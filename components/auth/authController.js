@@ -51,9 +51,21 @@ module.exports.signUp = async(req, res , next) => {
             const infoUser = {id: newUser._id,username: newUser.username,name: newUser.name, 
                 phone: newUser.phone, email: newUser.email, identify_card: newUser.identify_card,
                 native_place: newUser.native_place, apartment_id: newUser.apartment_id, auth: newUser.auth};
-            res.json({message: "200OK", token: token, infoUser: infoUser});
+            res.json({token: token, infoUser: infoUser});
         }
     } catch (error) {
-        res.status(500).json({message:"errors",error:error});
+        res.status(500).json({error:error});
+    }
+}
+//UPDATE
+module.exports.updateInfo = async (req, res, next) =>{
+    try {
+        const {name, phone, email, identify_card, native_place, user_id} = req.body;
+        await authServices.updateInfo(user_id, name, phone, email, identify_card, native_place);
+        const newInfo = await authServices.getUserById(user_id);
+        res.json({data: newInfo});
+    } catch (error) {
+        console.log("error: ",error);
+        res.status(500);
     }
 }

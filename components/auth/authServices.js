@@ -28,4 +28,15 @@ module.exports.updateAvatar = async (user_id, avatar)=>{
         }
     })
 }
+module.exports.updateInfo = async (user_id, name, phone, email, identify_card, native_place) =>{
+    const result = await authModel.updateOne({'_id': user_id}, 
+    {$set:{'name': name, 'phone': phone, 'email': email, 'identify_card': identify_card, 'native_place': native_place}},
+    (err, doc)=>{
+        if(err){
+            console.log("error: ", err);
+        }else{
+            console.log("doc", doc);
+        }
+    })
+}
 //DELETE

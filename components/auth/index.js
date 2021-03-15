@@ -8,7 +8,7 @@ router.post('/login',passPort.authenticate('local',{session: false}), authContro
 
 router.post('/signup', authController.signUp);
 
-// router.post('/infouser',passPort.authenticate('jwt',{session: false}),userController.getUserById);
+router.put('/update-info', passPort.authenticate('jwt',{session: false}), authController.updateInfo);
 
 // router.post('/changeblock',passPort.authenticate('jwt',{session: false}),userController.changeBlockById)
 
