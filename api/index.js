@@ -9,6 +9,7 @@ const otherBill = require('../components/otherBill');
 const apart = require('../components/apartment');
 const repair = require('../components/repair');
 const uploadImage = require('../components/uploadImage');
+const block = require('../components/block');
 
 router.use('/auth', auth);
 
@@ -27,5 +28,7 @@ router.use('/apart', apart);
 router.use('/repair', repair);
 
 router.use('/upload-image', uploadImage);
+
+router.use('/block', block);
 
 module.exports = router;
