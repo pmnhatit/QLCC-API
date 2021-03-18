@@ -21,9 +21,8 @@ module.exports.getAllRepairNoticesForUser = async (req, res, next) =>{
 }
 module.exports.createRepairNotice = async (req, res, next) =>{
     try {
-        const {title, content, appointment_date, apart_id, author} = req.body;
-        const repair_notice = await repairServices.createRepairNotice(title, content, appointment_date,
-            apart_id, author);
+        const {title, content, apart_id, author, image} = req.body;
+        const repair_notice = await repairServices.createRepairNotice(title, content, apart_id, author, image);
         res.status(201).json({data: repair_notice});
     } catch (error) {
         console.log("errors: ", error);

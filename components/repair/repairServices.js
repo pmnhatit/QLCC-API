@@ -1,5 +1,5 @@
 const repairModel = require('./repair');
-
+//GET
 module.exports.getAllRepairNotices = async () =>{
     const result = await repairModel.find().sort({$natural: -1});
     return result;
@@ -16,7 +16,8 @@ module.exports.getRepairNoticeById = async (id) =>{
     const result = await repairModel.findOne({'_id': id});
     return result;
 }
-module.exports.createRepairNotice = async (title, content, appointment_date, apart_id, author) =>{
+//CREATE
+module.exports.createRepairNotice = async (title, content, apart_id, author, image) =>{
     let receiver;
     if(author==="admin"){
         receiver = 2;
@@ -25,10 +26,11 @@ module.exports.createRepairNotice = async (title, content, appointment_date, apa
     }
     const is_read = false;
     const create_date = new Date().toLocaleString();
-    const newRepairNotice = new repairModel({title, content, appointment_date, create_date, apart_id,
-        author, receiver, is_read});
+    const newRepairNotice = new repairModel({title, content, create_date, apart_id,
+        author, receiver, is_read, image});
     return newRepairNotice.save();
 }
+//UPDATE
 module.exports.updateReadStatusById = async (notice_id, status) =>{
     const result = await repairModel.updateOne({'_id': notice_id}, {$set: {'is_read': status}}, (err, doc)=>{
         if (err) {

@@ -14,7 +14,7 @@ module.exports.login = async (req, res, next) =>{
     const user = req.user;
     console.log("user: ",user);
     if(user.message==="null"){
-        res.status(401);
+        res.status(401).json();
     }else{
         console.log("vô else")
         // Generate jwt token for user, you can also add more data to sign, such as: role, birthday...
@@ -66,6 +66,17 @@ module.exports.updateInfo = async (req, res, next) =>{
         res.json({data: newInfo});
     } catch (error) {
         console.log("error: ",error);
-        res.status(500);
+        res.status(500).json({error});
+    }
+}
+module.exports.updateAvatar = async (req, res, next) =>{
+    try {
+        const {user_id, avatar} = req.body;
+        await authServices.updateAvatar(user_id, avatar);
+        const new_auth = await authServices.getUserById(user_id);
+        res.status(200).json({data: new_auth});
+    } catch (error) {
+        console.log("errors: ",error);
+        res.status(500).json({error});
     }
 }

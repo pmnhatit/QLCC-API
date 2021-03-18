@@ -10,6 +10,8 @@ router.post('/signup', authController.signUp);
 
 router.put('/update-info', passPort.authenticate('jwt',{session: false}), authController.updateInfo);
 
+router.put('/update-avatar', authController.updateAvatar);
+
 // router.post('/changeblock',passPort.authenticate('jwt',{session: false}),userController.changeBlockById)
 
 module.exports = router;
