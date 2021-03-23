@@ -1,13 +1,15 @@
 const unitPriceModel = require("./unitPrice");
-
+//GET
 module.exports.getUnitPrice = async ()=>{
     const result = await unitPriceModel.find();
     return result[0];
 }
+//CREATE
 module.exports.createUnitPrice = async (electric, water, moto_fee, car_fee)=>{
     const newUnitPrice = new unitPriceModel({electric, water, moto_fee, car_fee});
-    return newUnitPrice.save();
+    return await newUnitPrice.save();
 }
+//UPDATE
 module.exports.editUnitPrice = async (electric, water) =>{
     const result = await unitPriceModel.updateOne({}, { $set: { 'electric': electric, 'water': water }}, (err, doc) => {
         if (err) {

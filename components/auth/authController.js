@@ -27,7 +27,7 @@ module.exports.login = async (req, res, next) =>{
         }
         const infoUser = {id: user.id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
             identify_card: user.identify_card, native_place: user.native_place, apartment_id: user.apartment_id, 
-            apartment_name: apart_names, auth: user.auth};
+            apartment_name: apart_names, avatar: user.avatar, auth: user.auth};
         res.json({token: token, infoUser: infoUser});
     }
 }
@@ -58,7 +58,7 @@ module.exports.signUp = async(req, res , next) => {
     }
 }
 //UPDATE
-module.exports.updateInfo = async (req, res, next) =>{
+module.exports.updateInfo = async (req, res, next) =>{//chua lay danh sach ten cac can ho
     try {
         const {name, phone, email, identify_card, native_place, user_id} = req.body;
         await authServices.updateInfo(user_id, name, phone, email, identify_card, native_place);

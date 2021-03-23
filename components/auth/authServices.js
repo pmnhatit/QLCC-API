@@ -15,7 +15,7 @@ module.exports.createUser = async (username, password, name, phone, email, ident
     console.log("Vo create");
     let hash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
     const newUser = new authModel({ username, password: hash, name, phone, email, identify_card, native_place, apartment_id, auth});
-    return newUser.save();
+    return await newUser.save();
 }
 //UPDATE
 module.exports.updateAvatar = async (user_id, avatar)=>{

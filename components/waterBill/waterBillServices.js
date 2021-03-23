@@ -1,6 +1,6 @@
 const waterBillModel = require('./waterBill');
 const unitPriceServices = require('../unitPrice/unitPriceServices');
-
+//GET
 module.exports.getWaterBillByApartmentId = async (id)=>{
     const result = await waterBillModel.find({'apart_id': id});
     return result;
@@ -9,6 +9,7 @@ module.exports.getWaterBillByMonth = async (apart_id, month, year)=>{
     const result = await waterBillModel.findOne({'apart_id': apart_id, 'month': month, 'year': year});
     return result;
 }
+//CREATE
 module.exports.createWaterBill = async (apart_id, new_index, month, year) =>{
     let m=0, y=0;
     if(month==1){
@@ -37,5 +38,5 @@ module.exports.createWaterBill = async (apart_id, new_index, month, year) =>{
     const total_money = consume * unit_price;
     console.log("Total: ", total_money);
     const newBill = new waterBillModel({apart_id, old_index, new_index, unit_price, consume, month, year, total_money})
-    return newBill.save();
+    return await newBill.save();
 }

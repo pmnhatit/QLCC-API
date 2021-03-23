@@ -28,7 +28,7 @@ module.exports.createRepairNotice = async (title, content, apart_id, author, ima
     const create_date = new Date().toLocaleString();
     const newRepairNotice = new repairModel({title, content, create_date, apart_id,
         author, receiver, is_read, image});
-    return newRepairNotice.save();
+    return await newRepairNotice.save();
 }
 //UPDATE
 module.exports.updateReadStatusById = async (notice_id, status) =>{
