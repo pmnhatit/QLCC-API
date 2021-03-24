@@ -14,6 +14,10 @@ var authSchema = new mongoose.Schema({
         type: String
     }],
     avatar: String,
+    token: {
+        type: String,
+        default: ""
+    },
     auth: Number// 1: admin, 2: user
 },
     {

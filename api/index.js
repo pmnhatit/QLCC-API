@@ -10,6 +10,7 @@ const apart = require('../components/apartment');
 const repair = require('../components/repair');
 const uploadImage = require('../components/uploadImage');
 const block = require('../components/block');
+const pushNoti = require('../components/pushNotification');
 
 router.use('/auth', auth);
 
@@ -30,5 +31,7 @@ router.use('/repair', repair);
 router.use('/upload-image', uploadImage);
 
 router.use('/block', block);
+
+router.use('/push-noti', pushNoti);
 
 module.exports = router;
