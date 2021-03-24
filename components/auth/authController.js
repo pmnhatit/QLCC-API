@@ -52,7 +52,7 @@ module.exports.signUp = async(req, res , next) => {
             const infoUser = {id: newUser._id,username: newUser.username,name: newUser.name, 
                 phone: newUser.phone, email: newUser.email, identify_card: newUser.identify_card,
                 native_place: newUser.native_place, apartment_id: newUser.apartment_id, 
-                auth: newUser.auth, token_device: newUser.token_device};
+                auth: newUser.auth, token_device: newUser.token_device, avatar: newUser.avatar};
             res.json({token: token, infoUser: infoUser});
         }
     } catch (error) {
@@ -60,11 +60,19 @@ module.exports.signUp = async(req, res , next) => {
     }
 }
 //UPDATE
-module.exports.updateInfo = async (req, res, next) =>{//chua lay danh sach ten cac can ho
+module.exports.updateInfo = async (req, res, next) =>{
     try {
         const {name, phone, email, identify_card, native_place, user_id} = req.body;
         await authServices.updateInfo(user_id, name, phone, email, identify_card, native_place);
-        const newInfo = await authServices.getUserById(user_id);
+        const user = await authServices.getUserById(user_id);
+        let apart_names = [];
+        for(let i=0; i<user.apartment_id.length; i++){
+            const apart_name = await apartmentServices.getApartmentById(user.apartment_id[i]);
+            apart_names[i] = apart_name.name;
+        }
+        const newInfo = {id: user._id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
+            identify_card: user.identify_card, native_place: user.native_place, apartment_id: user.apartment_id, 
+            apartment_name: apart_names, avatar: user.avatar, auth: user.auth, token_device: user.token_device}
         res.json({data: newInfo});
     } catch (error) {
         console.log("error: ",error);
@@ -76,7 +84,7 @@ module.exports.updateAvatar = async (req, res, next) =>{
         const {user_id, avatar} = req.body;
         await authServices.updateAvatar(user_id, avatar);
         const new_auth = await authServices.getUserById(user_id);
-        res.status(200).json({data: new_auth});
+        res.status(200).json({data: new_auth.avatar});
     } catch (error) {
         console.log("errors: ",error);
         res.status(500).json({error});
@@ -87,7 +95,7 @@ module.exports.updateTokenDevice = async (req, res, next) =>{
         const {user_id, token_device} = req.body;
         await authServices.updateTokenDevice(user_id, token_device);
         const new_auth = await authServices.getUserById(user_id);
-        res.status(200).json({data: new_auth});
+        res.status(200).json({data: new_auth.token_device});
     } catch (error) {
         console.log("errors: ",error);
         res.status(500).json(error);
