@@ -27,14 +27,15 @@ module.exports.login = async (req, res, next) =>{
         }
         const infoUser = {id: user.id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
             identify_card: user.identify_card, native_place: user.native_place, apartment_id: user.apartment_id, 
-            apartment_name: apart_names, avatar: user.avatar, auth: user.auth, token: user.token};
+            apartment_name: apart_names, avatar: user.avatar, auth: user.auth, token_device: user.token_device};
         res.json({token: token, infoUser: infoUser});
     }
 }
 module.exports.signUp = async(req, res , next) => {
     try {
         console.log("Vo signup");
-        const {username, password, name, phone, email, identify_card, native_place, apartment_id, auth, token} = req.body;
+        const {username, password, name, phone, email, identify_card, native_place, 
+            apartment_id, auth, token_device} = req.body;
         console.log("username: ", username);
         const user = await authServices.getUserByUsername(username);
         console.log("user: ",user);
@@ -42,14 +43,16 @@ module.exports.signUp = async(req, res , next) => {
             res.status(401).json({message:"user_exists"});
         }else{
             console.log("Vo else")
-            const newUser = await authServices.createUser(username, password, name, phone, email, identify_card, native_place, apartment_id, auth, token);
+            const newUser = await authServices.createUser(username, password, name, phone, email, 
+                identify_card, native_place, apartment_id, auth, token_device);
             // const newUser = await authService.getUserByUsername(username);
             console.log("đã vô: "+newUser);
             const payload = {username: newUser.username};
             const token = jwt.sign(payload, jwtOptions.secretOrKey);
             const infoUser = {id: newUser._id,username: newUser.username,name: newUser.name, 
                 phone: newUser.phone, email: newUser.email, identify_card: newUser.identify_card,
-                native_place: newUser.native_place, apartment_id: newUser.apartment_id, auth: newUser.auth, token: newUser.token};
+                native_place: newUser.native_place, apartment_id: newUser.apartment_id, 
+                auth: newUser.auth, token_device: newUser.token_device};
             res.json({token: token, infoUser: infoUser});
         }
     } catch (error) {
@@ -81,8 +84,8 @@ module.exports.updateAvatar = async (req, res, next) =>{
 }
 module.exports.updateTokenDevice = async (req, res, next) =>{
     try {
-        const {user_id, token} = req.body;
-        await authServices.updateTokenDevice(user_id, token);
+        const {user_id, token_device} = req.body;
+        await authServices.updateTokenDevice(user_id, token_device);
         const new_auth = await authServices.getUserById(user_id);
         res.status(200).json({data: new_auth});
     } catch (error) {

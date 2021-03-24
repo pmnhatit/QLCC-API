@@ -11,10 +11,14 @@ var authSchema = new mongoose.Schema({
     identify_card: String,
     native_place: String,
     apartment_id: [{
-        type: String
+        type: String,
+        default: ""
     }],
-    avatar: String,
-    token: {
+    avatar: {
+        type: String,
+        default: ""
+    },
+    token_device: {
         type: String,
         default: ""
     },
