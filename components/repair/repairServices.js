@@ -1,43 +1,49 @@
 const repairModel = require('./repair');
+const mongoose = require('mongoose');
 //GET
 module.exports.getAllRepairNotices = async () =>{
-    const result = await repairModel.find().sort({$natural: -1});
+    const result = await repairModel.find({'is_delete': false}).sort({$natural: -1});
     return result;
 }
-module.exports.getAllRepairNoticesForUser = async (apart_id) =>{
-    const result = await repairModel.find({'apart_id': apart_id, 'receiver': 2}).sort({$natural:-1});
+module.exports.getAllRepairNoticesByIdUser = async (user_id) =>{
+    const result = await repairModel.find({'author': user_id, 'is_delete': false}).sort({$natural: -1});
     return result;
 }
-module.exports.getAllRepairNoticesForAdmin = async () =>{
-    const result = await repairModel.find({'receiver': 1}).sort({$natural:-1});
-    return result;
-}
-module.exports.getRepairNoticeById = async (id) =>{
-    const result = await repairModel.findOne({'_id': id});
+module.exports.getRepairNoticeById = async (notice_id) =>{
+    const result = await repairModel.findOne({'_id': notice_id});
     return result;
 }
 //CREATE
-module.exports.createRepairNotice = async (title, content, apart_id, author, image) =>{
-    let receiver;
-    if(author==="admin"){
-        receiver = 2;
-    }else{
-        receiver = 1;
-    }
-    const is_read = false;
+module.exports.createRepairNotice = async (title, content, author, image) =>{
     const create_date = new Date().toLocaleString();
-    const newRepairNotice = new repairModel({title, content, create_date, apart_id,
-        author, receiver, is_read, image});
+    const newRepairNotice = new repairModel({title, content, create_date,
+        author, image});
     return await newRepairNotice.save();
 }
 //UPDATE
-module.exports.updateReadStatusById = async (notice_id, status) =>{
-    const result = await repairModel.updateOne({'_id': notice_id}, {$set: {'is_read': status}}, (err, doc)=>{
-        if (err) {
-            console.log("update document error");
-        } else {
-            console.log("update document success");
-            console.log(doc);
-        }
+module.exports.updateNoticeStatusById = async (notice_id, status) =>{
+    mongoose.set('useFindAndModify', false);
+    const result = await repairModel.findOneAndUpdate({'_id': notice_id}, {$set: {'status': status}}, {
+        new: true
     })
+    return result;
+}
+module.exports.updateIsReadStatus = async(notice_id, admin, user) =>{
+    mongoose.set('useFindAndModify', false);
+    const result = await repairModel.findOneAndUpdate({'_id': notice_id}, {'is_read_admin': admin, 'is_read_user': user},
+    {
+        new: true
+    })
+    return result;
+    
+}
+//DELETE
+module.exports.deleteRepairNotice = async (notice_id) =>{
+    mongoose.set('useFindAndModify', false);
+    const result = await repairModel.findOneAndUpdate({'_id': notice_id}, {'is_delete': true},
+    {
+        new: true
+    })
+    console.log(result);
+    return result;
 }
