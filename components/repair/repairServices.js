@@ -1,12 +1,24 @@
 const repairModel = require('./repair');
 const mongoose = require('mongoose');
 //GET
-module.exports.getAllRepairNotices = async () =>{
-    const result = await repairModel.find({'is_delete': false}).sort({$natural: -1});
+module.exports.getAllRepairNotices = async (page) =>{
+    const sk = (page-1)*10;
+    const result = await repairModel.find({'is_delete': false},
+    null,
+    {
+        skip: sk,
+        limit: 10
+    }).sort({$natural: -1});
     return result;
 }
-module.exports.getAllRepairNoticesByIdUser = async (user_id) =>{
-    const result = await repairModel.find({'author': user_id, 'is_delete': false}).sort({$natural: -1});
+module.exports.getAllRepairNoticesByIdUser = async (user_id, page) =>{
+    const sk = (page-1)*10;
+    const result = await repairModel.find({'author': user_id, 'is_delete': false},
+    null,
+    {
+        skip: sk,
+        limit: 10
+    }).sort({$natural: -1});
     return result;
 }
 module.exports.getRepairNoticeById = async (notice_id) =>{

@@ -4,9 +4,11 @@ const router = express.Router();
 const passPort = require('../../services/passport');
 const repairController = require('./repairController');
 
-router.get('/all', passPort.authenticate('jwt',{session: false}), repairController.getAllRepairNotices);
 
-router.get('/all/:user_id', passPort.authenticate('jwt',{session: false}), repairController.getAllRepairNoticesByIdUser);
+
+router.get('/all/:page', passPort.authenticate('jwt',{session: false}), repairController.getAllRepairNotices);
+
+router.get('/all/:user_id/:page', passPort.authenticate('jwt',{session: false}), repairController.getAllRepairNoticesByIdUser);
 
 router.get('/:notice_id', passPort.authenticate('jwt',{session: false}), repairController.getRepairNoticeById);
 
