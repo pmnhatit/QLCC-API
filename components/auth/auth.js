@@ -10,6 +10,10 @@ var authSchema = new mongoose.Schema({
     email: String,
     identify_card: String,
     native_place: String,
+    block_id: [{
+        type: String,
+        default:""
+    }],
     apartment_id: [{
         type: String,
         default: ""
@@ -22,7 +26,11 @@ var authSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    auth: Number// 1: admin, 2: user
+    auth: Number,// 1: admin, 2: user
+    is_delete: {
+        type: Boolean,
+        default: false
+    }
 },
     {
         collection: 'user'

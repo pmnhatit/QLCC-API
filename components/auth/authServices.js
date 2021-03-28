@@ -1,22 +1,30 @@
 const authModel = require('./auth');
 const bcrypt = require('bcryptjs');
+const mongoose = require('mongoose');
 //GET
 module.exports.getUserByUsername = async (username) =>{
-    console.log("Vo getUser");
     const result = await authModel.findOne({username: username});
     return result;
 }
 module.exports.getUserById = async (user_id) =>{
-    const result = await authModel.findOne({'_id': user_id});
+    const result = await authModel.findOne({'_id': user_id, 'is_delete': false});
+    return result;
+}
+module.exports.getAllUser = async ()=>{
+    const result = await authModel.find({'auth': 2, 'is_delete': false});
+    return result;
+}
+module.exports.getAllUserByBlockId = async (block_id) =>{
+    const result = await authModel.find({'block_id': block_id, 'is_delete': false});
     return result;
 }
 //CREATE
 module.exports.createUser = async (username, password, name, phone, email, identify_card, native_place, 
-    apartment_id, auth, token_device) =>{
+    block_id, apartment_id, auth, token_device) =>{
     console.log("Vo create");
     let hash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
     const newUser = new authModel({ username, password: hash, name, phone, email, 
-        identify_card, native_place, apartment_id, auth, token_device});
+        identify_card, native_place, block_id, apartment_id, auth, token_device});
     return await newUser.save();
 }
 //UPDATE
@@ -31,15 +39,13 @@ module.exports.updateAvatar = async (user_id, avatar)=>{
     })
 }
 module.exports.updateInfo = async (user_id, name, phone, email, identify_card, native_place) =>{
-    const result = await authModel.updateOne({'_id': user_id}, 
+    mongoose.set('useFindAndModify', false);
+    const result = await authModel.findOneAndUpdate({'_id': user_id}, 
     {$set:{'name': name, 'phone': phone, 'email': email, 'identify_card': identify_card, 'native_place': native_place}},
-    (err, doc)=>{
-        if(err){
-            console.log("error: ", err);
-        }else{
-            console.log("doc", doc);
-        }
+    {
+        new: true
     })
+    return result;
 }
 module.exports.updateTokenDevice = async (user_id, token_device) =>{
     const result = await authModel.updateOne({'_id': user_id},{$set: {'token_device': token_device}}, (err, doc)=>{
@@ -51,4 +57,13 @@ module.exports.updateTokenDevice = async (user_id, token_device) =>{
         }
     })
 } 
+// module.exports.updateBlockId = async (user_id, block_id) =>{
+//     mongoose.set('useFindAndModify', false);
+//     const result = await authModel.findOneAndUpdate({'_id': user_id}, 
+//     {$set:{'block_id': block_id}},
+//     {
+//         new: true
+//     })
+//     return result;
+// }
 //DELETE

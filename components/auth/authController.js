@@ -26,8 +26,9 @@ module.exports.login = async (req, res, next) =>{
             apart_names[i] = apart_name.name;
         }
         const infoUser = {id: user.id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
-            identify_card: user.identify_card, native_place: user.native_place, apartment_id: user.apartment_id, 
-            apartment_name: apart_names, avatar: user.avatar, auth: user.auth, token_device: user.token_device};
+            identify_card: user.identify_card, native_place: user.native_place, block_id: user.block_id, 
+            apartment_id: user.apartment_id, apartment_name: apart_names, avatar: user.avatar, 
+            auth: user.auth, token_device: user.token_device, is_delete: user.is_delete};
         res.json({token: token, infoUser: infoUser});
     }
 }
@@ -35,7 +36,7 @@ module.exports.signUp = async(req, res , next) => {
     try {
         console.log("Vo signup");
         const {username, password, name, phone, email, identify_card, native_place, 
-            apartment_id, auth, token_device} = req.body;
+            block_id, apartment_id, auth, token_device} = req.body;
         console.log("username: ", username);
         const user = await authServices.getUserByUsername(username);
         console.log("user: ",user);
@@ -44,35 +45,54 @@ module.exports.signUp = async(req, res , next) => {
         }else{
             console.log("Vo else")
             const newUser = await authServices.createUser(username, password, name, phone, email, 
-                identify_card, native_place, apartment_id, auth, token_device);
-            // const newUser = await authService.getUserByUsername(username);
-            console.log("đã vô: "+newUser);
-            const payload = {username: newUser.username};
+                identify_card, native_place, block_id, apartment_id, auth, token_device);
+            const payload = {username: newUser.username, id: newUser._id};
             const token = jwt.sign(payload, jwtOptions.secretOrKey);
             const infoUser = {id: newUser._id,username: newUser.username,name: newUser.name, 
                 phone: newUser.phone, email: newUser.email, identify_card: newUser.identify_card,
-                native_place: newUser.native_place, apartment_id: newUser.apartment_id, 
-                auth: newUser.auth, token_device: newUser.token_device, avatar: newUser.avatar};
+                native_place: newUser.native_place, block_id: newUser.block_id, apartment_id: newUser.apartment_id, 
+                auth: newUser.auth, token_device: newUser.token_device, avatar: newUser.avatar, is_delete: newUser.is_delete};
             res.json({token: token, infoUser: infoUser});
         }
     } catch (error) {
         res.status(500).json({error:error});
     }
 }
+//GET
+module.exports.getAllUserByBlockId = async (req, res, next) =>{
+    try {
+        const {block_id} = req.params;
+        const users = await authServices.getAllUserByBlockId(block_id);
+        res.status(200).json({data: users});
+    } catch (error) {
+        console.log("errors: ",error);
+        res.status(500).json(error);
+    }
+}
+module.exports.getAllUser = async (req, res, next) =>{
+    try {
+        const users = await authServices.getAllUser();
+        res.status(200).json({data: users});
+    } catch (error) {
+        console.log("errors: ", error);
+        res.status(500).json(error);
+    }
+}
 //UPDATE
 module.exports.updateInfo = async (req, res, next) =>{
     try {
         const {name, phone, email, identify_card, native_place, user_id} = req.body;
-        await authServices.updateInfo(user_id, name, phone, email, identify_card, native_place);
-        const user = await authServices.getUserById(user_id);
+        const user = await authServices.updateInfo(user_id, name, phone, email, identify_card, native_place);
+        //const user = await authServices.getUserById(user_id);
         let apart_names = [];
         for(let i=0; i<user.apartment_id.length; i++){
             const apart_name = await apartmentServices.getApartmentById(user.apartment_id[i]);
             apart_names[i] = apart_name.name;
         }
         const newInfo = {id: user._id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
-            identify_card: user.identify_card, native_place: user.native_place, apartment_id: user.apartment_id, 
-            apartment_name: apart_names, avatar: user.avatar, auth: user.auth, token_device: user.token_device}
+            identify_card: user.identify_card, native_place: user.native_place, block_id: user.block_id, 
+            apartment_id: user.apartment_id, apartment_name: apart_names, avatar: user.avatar, 
+            auth: user.auth, token_device: user.token_device}
         res.json({data: newInfo});
     } catch (error) {
         console.log("error: ",error);
@@ -101,3 +121,13 @@ module.exports.updateTokenDevice = async (req, res, next) =>{
         res.status(500).json(error);
     }
 }
+// module.exports.updateBlockId = async (req, res, next) =>{
+//     try {
+//         const {user_id, block_id} = req.body;
+//         const new_user = await authServices.updateBlockId(user_id, block_id);
+//         res.status(200).json({data: new_user});
+//     } catch (error) {
+//         console.log("error: ", error);
+//         res.status(500).json(error);
+//     }
+// }

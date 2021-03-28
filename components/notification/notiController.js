@@ -1,22 +1,35 @@
 const notiServices = require('./notiServices');
-
+//GET
 module.exports.getAllNotification = async (req, res, next) =>{
     try {
-        const result = await notiServices.getAllNotification();
+        const {page} = req.params;
+        const result = await notiServices.getAllNotification(page);
         res.json({data: result});
     } catch (error) {
         console.log("errors: ",error);
-        res.status(500);
+        res.status(500).json(error);
     }
 }
-module.exports.createNotification = async (req, res, next) =>{
+module.exports.getNotificationByUserId = async (req, res, next) =>{
     try {
-        const {title, content, date, author} = req.body;
-        const newNoti = await notiServices.createNotification(title, content, date, author);
-        // console.log("new: ",newNoti);
-        res.json({data: newNoti});
+        console.log("đã vô")
+        const {user_id, page} = req.params;
+        const notices = await notiServices.getNotificationByUserId(user_id, page);
+        res.status(200).json({data: notices})
     } catch (error) {
         console.log("errors: ", error);
-        res.status(500);
+        res.status(500).json(500);
+    }
+}
+//CREATE
+module.exports.createNotification = async (req, res, next) =>{
+    try {
+        const {title, content, type, image, link} = req.body;
+        const newNoti = await notiServices.createNotification(title, content, image, link, type);
+        // console.log("new: ",newNoti);
+        res.status(200).json({data: newNoti});
+    } catch (error) {
+        console.log("errors: ", error);
+        res.status(500).json(error);
     }
 }
