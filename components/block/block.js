@@ -3,7 +3,13 @@ var db = mongoose.connection;
 
 //create schame
 var blockSchema = new mongoose.Schema({
-    name: String
+    name: {
+        type: String
+    },
+    is_delete: {
+        type: Boolean,
+        default: false
+    }
 },
     {
         collection: 'block'

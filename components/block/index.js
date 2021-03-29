@@ -10,4 +10,6 @@ router.get('/:block_id', passPort.authenticate('jwt', {session: false}), blockCo
 
 router.post('/create', passPort.authenticate('jwt', {session: false}), blockController.createBlock);
 
+router.put('/update', passPort.authenticate('jwt', {session: false}), blockController.updateBlockById);
+
 module.exports = router;
