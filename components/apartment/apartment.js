@@ -6,10 +6,28 @@ var apartmentSchema = new mongoose.Schema({
     name: String,
     block: String,
     area: Number,
+    direction: {
+        type: String//Huong nha
+    },
+    type: {
+        type: String//vd: 1PN, 2PN, Loai A, B, PENTHOUSE
+    },
     images: [{
-        type: String
+        type: String,
+        default: ""
     }],
-    status: Number//1: con trong | 2: da thue | 3: da ban
+    status: {
+        type: Number,
+        default: 1
+    },//1: con trong | 2: da thue | 3: da ban
+    is_delete: {
+        type: Boolean,
+        default: false
+    },
+    description: {
+        type: String, 
+        default:""
+    }
 },
     {
         collection: 'apartment'

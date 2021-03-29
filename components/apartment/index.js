@@ -12,4 +12,6 @@ router.get('/:id', passPort.authenticate('jwt',{session: false}), apartControlle
 
 router.post('/add', passPort.authenticate('jwt',{session: false}), apartController.createApartment);
 
+router.put('/update', passPort.authenticate('jwt',{session: false}), apartController.updateApartment);
+
 module.exports = router;

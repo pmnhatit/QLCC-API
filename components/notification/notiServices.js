@@ -1,21 +1,23 @@
 const notiModel = require('./notification');
 const authServices = require('../auth/authServices');
 //GET
-module.exports.getAllNotification = async (page)=>{
-    const sk = (page-1)*10;
+module.exports.getAllNotification = async (page, limit)=>{
+    const sk = (page-1)*limit;
+    const l = parseInt(limit);
     const result = notiModel.find(null,
         null,{
             skip: sk,
-            limit: 10
+            limit: l
         }).sort({$natural: -1});
     return result;
 }
-module.exports.getNotificationByUserId = async (user_id, page) =>{
-    const sk = (page-1)*10;
+module.exports.getNotificationByUserId = async (user_id, page, limit) =>{
+    const sk = (page-1)*limit;
+    const l = parseInt(limit);
     const result = notiModel.find({'receivers.user_id': user_id},null,
         {
             skip: sk,
-            limit: 10
+            limit: l
         }).sort({$natural: -1});
     console.log(result);
     return result;

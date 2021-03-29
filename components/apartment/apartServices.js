@@ -1,12 +1,15 @@
+const mongoose = require('mongoose');
+
 const apartmentModel = require('./apartment');
 const authServices = require('../auth/authServices');
+//const block = require('../block/block');
 //GET
 module.exports.getAllApartment = async () =>{
-    const result = await apartmentModel.find();
+    const result = await apartmentModel.find({'is_delete': false});
     return result;
 }
 module.exports.getApartmentById = async (id) =>{
-    const result = await apartmentModel.findOne({'_id': id});
+    const result = await apartmentModel.findOne({'_id': id, 'is_delete': false});
     return result;
 }
 module.exports.getApartmentsByIdUser = async (user_id) =>{
@@ -19,13 +22,22 @@ module.exports.getApartmentsByIdUser = async (user_id) =>{
     return aparts;
 }
 module.exports.getAllApartsForRent = async ()=>{
-    const aparts = await apartmentModel.find({'status': 1});
+    const aparts = await apartmentModel.find({'status': 1, 'is_delete': false});
     return aparts;
 }
 //CREATE
-module.exports.createApartment = async (name, block, area, images, status) =>{
-    const new_apart = new apartmentModel({name, block, area, images, status});
+module.exports.createApartment = async (name, block, area, direction, type, images, description) =>{
+    const new_apart = new apartmentModel({name, block, area, direction, type, images, description});
     return await new_apart.save();
 }
 //UPDATE
+module.exports.updateApartment = async (apart_id, name, block, area, direction, type, images, description) =>{
+    mongoose.set('useFindAndModify', false);
+    const new_apart = await apartmentModel.findOneAndUpdate({'_id': apart_id},
+    {'name': name, 'block': block, 'area': area, 'direction': direction, 'type': type, 'image': images, 'description': description},
+    {
+        new: true
+    })
+    return new_apart;
+}
 //DELETE

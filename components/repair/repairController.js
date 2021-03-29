@@ -2,8 +2,8 @@ const repairServices = require('./repairServices');
 //GET
 module.exports.getAllRepairNotices = async (req, res, next)=>{
     try {
-        const {page} = req.params;
-        const repair_notices = await repairServices.getAllRepairNotices(page);
+        const {page, limit} = req.params;
+        const repair_notices = await repairServices.getAllRepairNotices(page, limit);
         res.json({data: repair_notices});
     } catch (error) {
         console.log("errors: ", error);
@@ -12,8 +12,8 @@ module.exports.getAllRepairNotices = async (req, res, next)=>{
 }
 module.exports.getAllRepairNoticesByIdUser = async (req, res, next) =>{
     try {
-        const {user_id, page} = req.params;
-        const repair_notices = await repairServices.getAllRepairNoticesByIdUser(user_id, page);
+        const {user_id, page, limit} = req.params;
+        const repair_notices = await repairServices.getAllRepairNoticesByIdUser(user_id, page, limit);
         res.json({data: repair_notices});
     } catch (error) {
         console.log("errors: ",error);

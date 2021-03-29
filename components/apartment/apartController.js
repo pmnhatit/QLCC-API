@@ -7,7 +7,7 @@ module.exports.getAllApartment = async (req, res, next) =>{
         res.json({data: apartments});
     } catch (error) {
         console.log("errors: ", error);
-        res.status(500);
+        res.status(500).json(error);
     }
 }
 module.exports.getApartmentById = async (req, res, next) =>{
@@ -18,7 +18,7 @@ module.exports.getApartmentById = async (req, res, next) =>{
         res.json({data: apart_info});
     } catch (error) {
         console.log("errors: ",error);
-        res.status(500);
+        res.status(500).json(error);
     }
 }
 module.exports.getApartmentByIdUser = async (req, res, next) =>{
@@ -29,17 +29,28 @@ module.exports.getApartmentByIdUser = async (req, res, next) =>{
         res.json({data: aparts_info}); 
     } catch (error) {
         console.log("errors: ", error);
-        res.status(500);
+        res.status(500).json(error);
     }
 }
 //CREATE
 module.exports.createApartment = async (req, res, next) =>{
     try {
-        const {name, block} = req.body;
-        const new_apart = await apartServices.createApartment(name, block);
-        res.json({data: new_apart});
+        const {name, block, area, direction, type, images, description} = req.body;
+        const new_apart = await apartServices.createApartment(name, block, area, direction, type, images, description);
+        res.status(200).json({data: new_apart});
     } catch (error) {
         console.log("errors: ",error);
-        res.status(500);
+        res.status(500).json(error);
+    }
+}
+//UPDATE
+module.exports.updateApartment = async (req, res, next) =>{
+    try {
+        const {apart_id, name, block, area, direction, type, images, description} = req.body;
+        const apartment = await apartServices.updateApartment(apart_id, name, block, area, direction, type, images, description);
+        res.status(200).json({data: apartment});
+    } catch (error) {
+        console.log("errors: ", error);
+        res.status(500).json(error);
     }
 }

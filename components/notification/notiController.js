@@ -2,8 +2,8 @@ const notiServices = require('./notiServices');
 //GET
 module.exports.getAllNotification = async (req, res, next) =>{
     try {
-        const {page} = req.params;
-        const result = await notiServices.getAllNotification(page);
+        const {page, limit} = req.params;
+        const result = await notiServices.getAllNotification(page, limit);
         res.json({data: result});
     } catch (error) {
         console.log("errors: ",error);
@@ -12,9 +12,8 @@ module.exports.getAllNotification = async (req, res, next) =>{
 }
 module.exports.getNotificationByUserId = async (req, res, next) =>{
     try {
-        console.log("đã vô")
-        const {user_id, page} = req.params;
-        const notices = await notiServices.getNotificationByUserId(user_id, page);
+        const {user_id, page, limit} = req.params;
+        const notices = await notiServices.getNotificationByUserId(user_id, page, limit);
         res.status(200).json({data: notices})
     } catch (error) {
         console.log("errors: ", error);
