@@ -10,5 +10,8 @@ router.get('/month-bill/:apart_id/:month/:year', passPort.authenticate('jwt',{se
 
 router.post('/add', passPort.authenticate('jwt',{session: false}), waterBillController.createElectricBill);
 
+router.put('/update', passPort.authenticate('jwt',{session: false}), waterBillController.updateWaterBill);
+
+router.delete('/delete', passPort.authenticate('jwt',{session: false}), waterBillController.deleteWaterBill);
 
 module.exports = router;
