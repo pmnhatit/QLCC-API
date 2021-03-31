@@ -10,7 +10,11 @@ var electricBillSchema = new mongoose.Schema({
     consume: Number,
     month: Number,
     year: Number,
-    total_money: Number
+    total_money: Number,
+    is_delete:{
+        type: Boolean,
+        default: false
+    }
 },
     {
         collection: 'electric_bill'
