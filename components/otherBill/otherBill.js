@@ -14,7 +14,11 @@ var otherBillSchema = new mongoose.Schema({
     },//phi khac
     month: Number,
     year: Number,
-    note: String//ghi chu
+    note: String,//ghi chu
+    is_delete:{
+        type: Boolean,
+        default: false
+    }
 },
     {
         collection: 'other_bill'

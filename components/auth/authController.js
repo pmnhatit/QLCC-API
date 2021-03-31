@@ -21,9 +21,13 @@ module.exports.login = async (req, res, next) =>{
         const sign = {username: user.username, id: user.id}
         const token = jwt.sign(sign, process.env.KEY_SECRET);
         let apart_names = [];
-        for(let i=0; i<user.apartment_id.length; i++){
-            const apart_name = await apartmentServices.getApartmentById(user.apartment_id[i]);
-            apart_names[i] = apart_name.name;
+        if(user.apartment_id[0]==""){
+            apart_names[0] = "";
+        }else{
+            for(let i=0; i<user.apartment_id.length; i++){
+                const apart_name = await apartmentServices.getApartmentById(user.apartment_id[i]);
+                apart_names[i] = apart_name.name;
+            }
         }
         const infoUser = {id: user.id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
             identify_card: user.identify_card, native_place: user.native_place, block_id: user.block_id, 
@@ -48,16 +52,52 @@ module.exports.signUp = async(req, res , next) => {
                 identify_card, native_place, block_id, apartment_id, auth, token_device);
             const payload = {username: newUser.username, id: newUser._id};
             const token = jwt.sign(payload, jwtOptions.secretOrKey);
+            let apart_names = [];
+            if(user.apartment_id[0]==""){
+                apart_names[0] = "";
+            }else{
+                for(let i=0; i<user.apartment_id.length; i++){
+                    const apart_name = await apartmentServices.getApartmentById(user.apartment_id[i]);
+                    apart_names[i] = apart_name.name;
+                }
+            }
             const infoUser = {id: newUser._id,username: newUser.username,name: newUser.name, 
                 phone: newUser.phone, email: newUser.email, identify_card: newUser.identify_card,
                 native_place: newUser.native_place, block_id: newUser.block_id, apartment_id: newUser.apartment_id, 
-                auth: newUser.auth, token_device: newUser.token_device, avatar: newUser.avatar, is_delete: newUser.is_delete};
+                apartment_name: apart_names, auth: newUser.auth, token_device: newUser.token_device, 
+                avatar: newUser.avatar, is_delete: newUser.is_delete};
             res.json({token: token, infoUser: infoUser});
         }
     } catch (error) {
         res.status(500).json({error:error});
     }
 }
+// module.exports.createAdmin = async (req, res, next) =>{
+//     try {
+//         console.log("Vo signup");
+//         const {username, password, name, phone, email, identify_card, native_place, 
+//             block_id, apartment_id, auth, token_device} = req.body;
+//         console.log("username: ", username);
+//         const user = await authServices.getUserByUsername(username);
+//         console.log("user: ",user);
+//         if(user){
+//             res.status(401).json({message:"user_exists"});
+//         }else{
+//             console.log("Vo else")
+//             const newUser = await authServices.createUser(username, password, name, phone, email, 
+//                 identify_card, native_place, block_id, apartment_id, auth, token_device);
+//             const payload = {username: newUser.username, id: newUser._id};
+//             const token = jwt.sign(payload, jwtOptions.secretOrKey);
+//             const infoUser = {id: newUser._id,username: newUser.username,name: newUser.name, 
+//                 phone: newUser.phone, email: newUser.email, identify_card: newUser.identify_card,
+//                 native_place: newUser.native_place, block_id: newUser.block_id, apartment_id: newUser.apartment_id, 
+//                 auth: newUser.auth, token_device: newUser.token_device, avatar: newUser.avatar, is_delete: newUser.is_delete};
+//             res.json({token: token, infoUser: infoUser});
+//         }
+//     } catch (error) {
+//         res.status(500).json({error:error});
+//     }
+// }
 //GET
 module.exports.getAllUserByBlockId = async (req, res, next) =>{
     try {
@@ -85,9 +125,13 @@ module.exports.updateInfo = async (req, res, next) =>{
         const user = await authServices.updateInfo(user_id, name, phone, email, identify_card, native_place);
         //const user = await authServices.getUserById(user_id);
         let apart_names = [];
-        for(let i=0; i<user.apartment_id.length; i++){
-            const apart_name = await apartmentServices.getApartmentById(user.apartment_id[i]);
-            apart_names[i] = apart_name.name;
+        if(user.apartment_id[0]==""){
+            apart_names[0] = "";
+        }else{
+            for(let i=0; i<user.apartment_id.length; i++){
+                const apart_name = await apartmentServices.getApartmentById(user.apartment_id[i]);
+                apart_names[i] = apart_name.name;
+            }
         }
         const newInfo = {id: user._id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
             identify_card: user.identify_card, native_place: user.native_place, block_id: user.block_id, 
