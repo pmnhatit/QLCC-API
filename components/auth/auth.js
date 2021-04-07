@@ -26,7 +26,7 @@ var authSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
-    auth: Number,// 1: admin, 2: user
+    //auth: Number,// 1: admin, 2: user
     is_delete: {
         type: Boolean,
         default: false

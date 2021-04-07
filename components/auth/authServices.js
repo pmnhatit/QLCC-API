@@ -3,7 +3,7 @@ const bcrypt = require('bcryptjs');
 const mongoose = require('mongoose');
 //GET
 module.exports.getUserByUsername = async (username) =>{
-    const result = await authModel.findOne({username: username});
+    const result = await authModel.findOne({'username': username, 'is_delete': false});
     return result;
 }
 module.exports.getUserById = async (user_id) =>{

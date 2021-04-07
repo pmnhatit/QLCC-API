@@ -72,32 +72,6 @@ module.exports.signUp = async(req, res , next) => {
         res.status(500).json({error:error});
     }
 }
-// module.exports.createAdmin = async (req, res, next) =>{
-//     try {
-//         console.log("Vo signup");
-//         const {username, password, name, phone, email, identify_card, native_place, 
-//             block_id, apartment_id, auth, token_device} = req.body;
-//         console.log("username: ", username);
-//         const user = await authServices.getUserByUsername(username);
-//         console.log("user: ",user);
-//         if(user){
-//             res.status(401).json({message:"user_exists"});
-//         }else{
-//             console.log("Vo else")
-//             const newUser = await authServices.createUser(username, password, name, phone, email, 
-//                 identify_card, native_place, block_id, apartment_id, auth, token_device);
-//             const payload = {username: newUser.username, id: newUser._id};
-//             const token = jwt.sign(payload, jwtOptions.secretOrKey);
-//             const infoUser = {id: newUser._id,username: newUser.username,name: newUser.name, 
-//                 phone: newUser.phone, email: newUser.email, identify_card: newUser.identify_card,
-//                 native_place: newUser.native_place, block_id: newUser.block_id, apartment_id: newUser.apartment_id, 
-//                 auth: newUser.auth, token_device: newUser.token_device, avatar: newUser.avatar, is_delete: newUser.is_delete};
-//             res.json({token: token, infoUser: infoUser});
-//         }
-//     } catch (error) {
-//         res.status(500).json({error:error});
-//     }
-// }
 //GET
 module.exports.getAllUserByBlockId = async (req, res, next) =>{
     try {
