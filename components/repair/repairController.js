@@ -20,6 +20,16 @@ module.exports.getRepairNoticeById = async (req, res, next) =>{
         res.status(500).json(error)
     }
 }
+module.exports.getRepairNoticeByStatus = async (req, res, next) =>{
+    try {
+        const {user_id, page, limit, status} = req.params;
+        const notices = await repairServices.getRepairNoticeByStatus(user_id, page, limit, status);
+        res.status(200).json({data: notices});
+    } catch (error) {
+        console.log("errors: ", error);
+        res.status(500).json(error)
+    }
+}
 //CREATE
 module.exports.createRepairNotice = async (req, res, next) =>{
     try {
