@@ -8,6 +8,6 @@ router.get('/all/:page/:limit', passPort.authenticate('jwt',{session: false}), n
 
 router.get('/user/:user_id/:page/:limit',passPort.authenticate('jwt',{session: false}), notiController.getNotificationByUserId);
 
-router.post('/add', passPort.authenticate('jwt',{session: false}), notiController.createNotification);
+router.put('/change-is-read', passPort.authenticate('jwt',{session: false}), notiController.updateIsReadStatus);
 
 module.exports = router;

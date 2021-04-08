@@ -20,13 +20,12 @@ module.exports.getNotificationByUserId = async (req, res, next) =>{
         res.status(500).json(500);
     }
 }
-//CREATE
-module.exports.createNotification = async (req, res, next) =>{
+//UPDATE
+module.exports.updateIsReadStatus = async (req, res, next) =>{
     try {
-        const {title, content, type, image, link} = req.body;
-        const newNoti = await notiServices.createNotification(title, content, image, link, type);
-        // console.log("new: ",newNoti);
-        res.status(200).json({data: newNoti});
+        const {notice_id, user_id, status} = req.body;
+        const notice = await notiServices.changeIsReadStatus(notice_id, user_id, status);
+        res.status(200).json({data: notice});
     } catch (error) {
         console.log("errors: ", error);
         res.status(500).json(error);

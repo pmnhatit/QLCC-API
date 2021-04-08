@@ -10,7 +10,7 @@ const checkNoticeByUser = async (req, res, next) =>{
         if(notice.author===id){
             next();
         }else{
-            res.status(401).json();
+            res.status(400).json({message: "Cann't delete this notice!"});
         }
     }
 }

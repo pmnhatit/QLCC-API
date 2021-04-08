@@ -29,7 +29,7 @@ module.exports.login = async (req, res, next) =>{
                 apart_names[i] = apart_name.name;
             }
         }
-        const infoUser = {id: user.id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
+        const infoUser = {_id: user.id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
             identify_card: user.identify_card, native_place: user.native_place, block_id: user.block_id, 
             apartment_id: user.apartment_id, apartment_name: apart_names, avatar: user.avatar, 
             auth: user.auth, token_device: user.token_device, is_delete: user.is_delete};
@@ -61,7 +61,7 @@ module.exports.signUp = async(req, res , next) => {
                     apart_names[i] = apart_name.name;
                 }
             }
-            const infoUser = {id: newUser._id,username: newUser.username,name: newUser.name, 
+            const infoUser = {_id: newUser._id,username: newUser.username,name: newUser.name, 
                 phone: newUser.phone, email: newUser.email, identify_card: newUser.identify_card,
                 native_place: newUser.native_place, block_id: newUser.block_id, apartment_id: newUser.apartment_id, 
                 apartment_name: apart_names, auth: newUser.auth, token_device: newUser.token_device, 
@@ -107,7 +107,7 @@ module.exports.updateInfo = async (req, res, next) =>{
                 apart_names[i] = apart_name.name;
             }
         }
-        const newInfo = {id: user._id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
+        const newInfo = {_id: user._id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
             identify_card: user.identify_card, native_place: user.native_place, block_id: user.block_id, 
             apartment_id: user.apartment_id, apartment_name: apart_names, avatar: user.avatar, 
             auth: user.auth, token_device: user.token_device}
