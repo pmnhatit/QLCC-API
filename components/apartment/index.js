@@ -10,8 +10,4 @@ router.get('/all-aparts/:user_id', passPort.authenticate('jwt',{session: false})
 
 router.get('/:id', passPort.authenticate('jwt',{session: false}), apartController.getApartmentById);
 
-router.post('/add', passPort.authenticate('jwt',{session: false}), apartController.createApartment);
-
-router.put('/update', passPort.authenticate('jwt',{session: false}), apartController.updateApartment);
-
 module.exports = router;

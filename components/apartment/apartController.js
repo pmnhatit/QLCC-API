@@ -32,25 +32,3 @@ module.exports.getApartmentByIdUser = async (req, res, next) =>{
         res.status(500).json(error);
     }
 }
-//CREATE
-module.exports.createApartment = async (req, res, next) =>{
-    try {
-        const {name, block, area, direction, type, images, description} = req.body;
-        const new_apart = await apartServices.createApartment(name, block, area, direction, type, images, description);
-        res.status(200).json({data: new_apart});
-    } catch (error) {
-        console.log("errors: ",error);
-        res.status(500).json(error);
-    }
-}
-//UPDATE
-module.exports.updateApartment = async (req, res, next) =>{
-    try {
-        const {apart_id, name, block, area, direction, type, images, description} = req.body;
-        const apartment = await apartServices.updateApartment(apart_id, name, block, area, direction, type, images, description);
-        res.status(200).json({data: apartment});
-    } catch (error) {
-        console.log("errors: ", error);
-        res.status(500).json(error);
-    }
-}

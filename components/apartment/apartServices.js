@@ -21,23 +21,12 @@ module.exports.getApartmentsByIdUser = async (user_id) =>{
     }
     return aparts;
 }
+//chua dung
 module.exports.getAllApartsForRent = async ()=>{
     const aparts = await apartmentModel.find({'status': 1, 'is_delete': false});
     return aparts;
 }
-//CREATE
-module.exports.createApartment = async (name, block, area, direction, type, images, description) =>{
-    const new_apart = new apartmentModel({name, block, area, direction, type, images, description});
-    return await new_apart.save();
-}
-//UPDATE
-module.exports.updateApartment = async (apart_id, name, block, area, direction, type, images, description) =>{
-    mongoose.set('useFindAndModify', false);
-    const new_apart = await apartmentModel.findOneAndUpdate({'_id': apart_id},
-    {'name': name, 'block': block, 'area': area, 'direction': direction, 'type': type, 'image': images, 'description': description},
-    {
-        new: true
-    })
-    return new_apart;
-}
-//DELETE
+module.exports.getApartsByStatus = async (status) =>{
+    const aparts = await apartmentModel.find({'status': status, 'is_delete': false});
+    return aparts;
+}//chua dung
