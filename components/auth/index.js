@@ -10,8 +10,6 @@ router.get('/all', passPort.authenticate('jwt',{session: false}), authController
 
 router.post('/login',passPort.authenticate('local',{session: false}), authController.login);
 
-router.post('/signup', authController.signUp);
-
 router.put('/update-info', passPort.authenticate('jwt',{session: false}), authController.updateInfo);
 
 router.put('/update-avatar', authController.updateAvatar);

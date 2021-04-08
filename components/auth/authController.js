@@ -36,42 +36,7 @@ module.exports.login = async (req, res, next) =>{
         res.json({token: token, infoUser: infoUser});
     }
 }
-module.exports.signUp = async(req, res , next) => {
-    try {
-        console.log("Vo signup");
-        const {username, password, name, phone, email, identify_card, native_place, 
-            block_id, apartment_id, auth, token_device} = req.body;
-        console.log("username: ", username);
-        const user = await authServices.getUserByUsername(username);
-        console.log("user: ",user);
-        if(user){
-            res.status(401).json({message:"user_exists"});
-        }else{
-            console.log("Vo else")
-            const newUser = await authServices.createUser(username, password, name, phone, email, 
-                identify_card, native_place, block_id, apartment_id, auth, token_device);
-            const payload = {username: newUser.username, id: newUser._id};
-            const token = jwt.sign(payload, jwtOptions.secretOrKey);
-            let apart_names = [];
-            if(user.apartment_id[0]==""){
-                apart_names[0] = "";
-            }else{
-                for(let i=0; i<user.apartment_id.length; i++){
-                    const apart_name = await apartmentServices.getApartmentById(user.apartment_id[i]);
-                    apart_names[i] = apart_name.name;
-                }
-            }
-            const infoUser = {_id: newUser._id,username: newUser.username,name: newUser.name, 
-                phone: newUser.phone, email: newUser.email, identify_card: newUser.identify_card,
-                native_place: newUser.native_place, block_id: newUser.block_id, apartment_id: newUser.apartment_id, 
-                apartment_name: apart_names, auth: newUser.auth, token_device: newUser.token_device, 
-                avatar: newUser.avatar, is_delete: newUser.is_delete};
-            res.json({token: token, infoUser: infoUser});
-        }
-    } catch (error) {
-        res.status(500).json({error:error});
-    }
-}
+
 //GET
 module.exports.getAllUserByBlockId = async (req, res, next) =>{
     try {
@@ -139,13 +104,3 @@ module.exports.updateTokenDevice = async (req, res, next) =>{
         res.status(500).json(error);
     }
 }
-// module.exports.updateBlockId = async (req, res, next) =>{
-//     try {
-//         const {user_id, block_id} = req.body;
-//         const new_user = await authServices.updateBlockId(user_id, block_id);
-//         res.status(200).json({data: new_user});
-//     } catch (error) {
-//         console.log("error: ", error);
-//         res.status(500).json(error);
-//     }
-// }

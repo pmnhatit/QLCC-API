@@ -18,15 +18,6 @@ module.exports.getAllUserByBlockId = async (block_id) =>{
     const result = await authModel.find({'block_id': block_id, 'is_delete': false});
     return result;
 }
-//CREATE
-module.exports.createUser = async (username, password, name, phone, email, identify_card, native_place, 
-    block_id, apartment_id, auth, token_device) =>{
-    console.log("Vo create");
-    let hash = bcrypt.hashSync(password, bcrypt.genSaltSync(10));
-    const newUser = new authModel({ username, password: hash, name, phone, email, 
-        identify_card, native_place, block_id, apartment_id, auth, token_device});
-    return await newUser.save();
-}
 //UPDATE
 module.exports.updateAvatar = async (user_id, avatar)=>{
     const result = await authModel.updateOne({'_id': user_id},{$set: {'avatar': avatar}}, (err, doc)=>{
@@ -56,14 +47,4 @@ module.exports.updateTokenDevice = async (user_id, token_device) =>{
             console.log(doc);
         }
     })
-} 
-// module.exports.updateBlockId = async (user_id, block_id) =>{
-//     mongoose.set('useFindAndModify', false);
-//     const result = await authModel.findOneAndUpdate({'_id': user_id}, 
-//     {$set:{'block_id': block_id}},
-//     {
-//         new: true
-//     })
-//     return result;
-// }
-//DELETE
+}
