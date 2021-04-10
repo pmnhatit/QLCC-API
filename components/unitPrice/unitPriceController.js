@@ -6,7 +6,7 @@ module.exports.getUnitPrice = async (req, res, next) =>{
         res.json({data: result});
     } catch (error) {
         console.log("errors: ",error);
-        res.status(500);
+        res.status(500).json(error);
     }
 }
 module.exports.createUnitPrice = async (req, res, next) =>{
@@ -16,7 +16,7 @@ module.exports.createUnitPrice = async (req, res, next) =>{
         res.json({data: newUnitPrice});
     } catch (error) {
         console.log("errors: ",error);
-        res.status(500);
+        res.status(500).json(error);
     }
 }
 module.exports.editUnitPrice = async (req, res, next) =>{
@@ -27,6 +27,6 @@ module.exports.editUnitPrice = async (req, res, next) =>{
         res.json({data: result});
     } catch (error) {
         console.log("errors: ", error);
-        res.status(500);
+        res.status(500).json(error);
     }
 }
