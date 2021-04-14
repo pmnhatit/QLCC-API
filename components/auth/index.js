@@ -16,8 +16,6 @@ router.put('/update-avatar', authController.updateAvatar);
 
 router.put('/update-token-device', passPort.authenticate('jwt',{session: false}), authController.updateTokenDevice);
 
-//router.put('/update-block', passPort.authenticate('jwt',{session: false}), authController.updateBlockId); //xem xet co dung khong
-
-// router.post('/changeblock',passPort.authenticate('jwt',{session: false}),userController.changeBlockById)
+router.put('/change-pass', passPort.authenticate('jwt',{session: false}), authController.changePassword);
 
 module.exports = router;

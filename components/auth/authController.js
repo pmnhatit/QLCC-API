@@ -104,3 +104,18 @@ module.exports.updateTokenDevice = async (req, res, next) =>{
         res.status(500).json(error);
     }
 }
+module.exports.changePassword = async (req, res, next) =>{
+    try {
+        const {user_id, new_pass, old_pass} = req.body;
+        const check = await authServices.checkOldPassword(user_id, old_pass);
+        if(check==false){
+            res.status(400).json({message: "Current password is incorrect!"});
+        }else{
+            const new_user = await authServices.changePassword(user_id, new_pass);
+            res.status(200).json({data: new_user});
+        }
+    } catch (error) {
+        console.log("errors: ",error);
+        res.status(500).json(error);
+    }
+}
