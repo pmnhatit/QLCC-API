@@ -8,75 +8,107 @@ jwtOptions.secretOrKey = process.env.KEY_SECRET;
 
 const authServices = require('./authServices');
 const apartmentServices = require('../apartment/apartServices');
-// const { use } = require('../otherBill');
+const blockServices = require('../block/blockServices');
 
 module.exports.login = async (req, res, next) =>{
     const user = req.user;
-    console.log("user: ",user);
     if(user.message==="null"){
         res.status(401).json();
     }else{
-        console.log("vô else")
         // Generate jwt token for user, you can also add more data to sign, such as: role, birthday...
         const sign = {username: user.username, id: user.id}
         const token = jwt.sign(sign, process.env.KEY_SECRET);
-        let apart_names = [];
+        let apart_name = [];
         if(user.apartment_id[0]==""){
-            apart_names[0] = "";
+            apart_name[0] = "";
         }else{
             for(let i=0; i<user.apartment_id.length; i++){
-                const apart_name = await apartmentServices.getApartmentById(user.apartment_id[i]);
-                apart_names[i] = apart_name.name;
+                const apart = await apartmentServices.getApartmentById(user.apartment_id[i]);
+                apart_name[i] = apart.name;
             }
         }
-        const infoUser = {_id: user.id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
-            identify_card: user.identify_card, native_place: user.native_place, block_id: user.block_id, 
-            apartment_id: user.apartment_id, apartment_name: apart_names, avatar: user.avatar, 
-            auth: user.auth, token_device: user.token_device, is_delete: user.is_delete};
+        let block_name = [];
+        if(user.block_id[0]==""){
+            block_name[0] = "";
+        }else{
+            for(let i=0; i<user.block_id.length; i++){
+                const block = await blockServices.getBlockById(user.block_id[i]);
+                block_name[i] = block.name;
+            }
+        }
+        const infoUser = {id: user.id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
+            identify_card: user.identify_card, native_place: user.native_place, apart_id: user.apartment_id, 
+            block_id: user.block_id, apart_name: apart_name, block_name: block_name,
+            license_plates: user.license_plates, token_device: user.token_device, is_delete: user.is_delete};
         res.json({token: token, infoUser: infoUser});
     }
 }
 
 //GET
-module.exports.getAllUserByBlockId = async (req, res, next) =>{
+module.exports.getUserById = async (req, res, next) =>{
     try {
-        const {block_id} = req.params;
-        const users = await authServices.getAllUserByBlockId(block_id);
-        res.status(200).json({data: users});
+        const {user_id} = req.params;
+        const user = await authServices.getUserById(user_id);
+        //Lay ten cua can ho
+        let apart_name = [];
+        if(user.apartment_id[0]==""){
+            apart_name[0] = "";
+        }else{
+            for(let i=0; i<user.apartment_id.length; i++){
+                const apart = await apartmentServices.getApartmentById(user.apartment_id[i]);
+                apart_name[i] = apart.name;
+            }
+        }
+        //Lay ten toa nha
+        let block_name = [];
+        if(user.block_id[0]==""){
+            block_name[0] = "";
+        }else{
+            for(let i=0; i<user.block_id.length; i++){
+                const block = await blockServices.getBlockById(user.block_id[i]);
+                block_name[i] = block.name;
+            }
+        }
+        const infoUser = {id: user._id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
+            identify_card: user.identify_card, native_place: user.native_place, apart_id: user.apartment_id, 
+            block_id: user.block_id, block_name: block_name, apart_name: apart_name,
+            license_plates: user.license_plates, token_device: user.token_device, is_delete: user.is_delete};
+            res.status(200).json({data: infoUser});
     } catch (error) {
         console.log("errors: ",error);
-        res.status(500).json(error);
-    }
-}
-module.exports.getAllUser = async (req, res, next) =>{
-    try {
-        const users = await authServices.getAllUser();
-        res.status(200).json({data: users});
-    } catch (error) {
-        console.log("errors: ", error);
         res.status(500).json(error);
     }
 }
 //UPDATE
 module.exports.updateInfo = async (req, res, next) =>{
     try {
-        const {name, phone, email, identify_card, native_place, user_id} = req.body;
-        const user = await authServices.updateInfo(user_id, name, phone, email, identify_card, native_place);
-        //const user = await authServices.getUserById(user_id);
-        let apart_names = [];
+        const {name, phone, email, user_id} = req.body;
+        const user = await authServices.updateInfo(user_id, name, phone, email);
+        //Lay ten cua can ho
+        let apart_name = [];
         if(user.apartment_id[0]==""){
-            apart_names[0] = "";
+            apart_name[0] = "";
         }else{
             for(let i=0; i<user.apartment_id.length; i++){
-                const apart_name = await apartmentServices.getApartmentById(user.apartment_id[i]);
-                apart_names[i] = apart_name.name;
+                const apart = await apartmentServices.getApartmentById(user.apartment_id[i]);
+                apart_name[i] = apart.name;
             }
         }
-        const newInfo = {_id: user._id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
-            identify_card: user.identify_card, native_place: user.native_place, block_id: user.block_id, 
-            apartment_id: user.apartment_id, apartment_name: apart_names, avatar: user.avatar, 
-            auth: user.auth, token_device: user.token_device}
-        res.json({data: newInfo});
+        //Lay ten toa nha
+        let block_name = [];
+        if(user.block_id[0]==""){
+            block_name[0] = "";
+        }else{
+            for(let i=0; i<user.block_id.length; i++){
+                const block = await blockServices.getBlockById(user.block_id[i]);
+                block_name[i] = block.name;
+            }
+        }
+        const newInfo = {id: user._id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
+            identify_card: user.identify_card, native_place: user.native_place, apart_id: user.apartment_id, 
+            block_id: user.block_id, block_name: block_name, apart_name: apart_name,
+            license_plates: user.license_plates, token_device: user.token_device, is_delete: user.is_delete};
+        res.status(200).json({data: newInfo});
     } catch (error) {
         console.log("error: ",error);
         res.status(500).json({error});

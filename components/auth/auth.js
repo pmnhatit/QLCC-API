@@ -10,6 +10,10 @@ var authSchema = new mongoose.Schema({
     email: String,
     identify_card: String,
     native_place: String,
+    license_plates: [{
+        type: String,
+        default: ""
+    }],//bang so xe
     block_id: [{
         type: String,
         default:""

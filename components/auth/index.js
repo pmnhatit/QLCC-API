@@ -4,9 +4,7 @@ const router = express.Router();
 const passPort = require('../../services/passport');
 const authController = require('./authController')
 
-router.get('/users-block/:block_id', passPort.authenticate('jwt',{session: false}), authController.getAllUserByBlockId);
-
-router.get('/all', passPort.authenticate('jwt',{session: false}), authController.getAllUser);
+router.get('/user/:user_id', passPort.authenticate('jwt',{session: false}), authController.getUserById);
 
 router.post('/login',passPort.authenticate('local',{session: false}), authController.login);
 
