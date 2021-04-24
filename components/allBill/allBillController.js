@@ -74,3 +74,21 @@ module.exports.updateImage = async (req, res, next) =>{
         res.status(500).json(error);
     }
 }
+module.exports.changeReportStatus = async (req, res, next) =>{
+    try {
+        const {bill_id} = req.body;
+        const bill = await allBillServices.changeReportStatus(bill_id);
+        if(bill){
+            const apart = await apartServices.getApartmentById(bill.apart_id);
+        const result = {id: bill._id, apart_id: bill.apart_id, apart_name: apart.name, electric_bill: bill.electric_bill,
+            water_bill: bill.water_bill, other_bill: bill.other_bill, total_money: bill.total_money, image: bill.image,
+            month: bill.month, year: bill.year, report: bill.report, is_pay: bill.is_pay, is_delete: bill.is_delete};
+            res.status(200).json({data: result});
+        }else{
+            res.status(400).json({message: "No bill to update!"});
+        }
+    } catch (error) {
+        console.log("errors: ",error);
+        res.status(500).json(error);
+    }
+}

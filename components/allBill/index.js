@@ -12,4 +12,6 @@ router.get('/:bill_id', passPort.authenticate('jwt',{session: false}), allBillCo
 
 router.put('/update-image', passPort.authenticate('jwt',{session: false}), allBillController.updateImage);
 
+router.put('/change-report', passPort.authenticate('jwt',{session: false}), allBillController.changeReportStatus);
+
 module.exports = router;
