@@ -9,7 +9,7 @@ module.exports.getBillByApartId = async (req, res, next) =>{
         const apart = await apartServices.getApartmentById(apart_id);
         const result = {id: bill._id, apart_id: bill.apart_id, apart_name: apart.name, electric_bill: bill.electric_bill,
             water_bill: bill.water_bill, other_bill: bill.other_bill, total_money: bill.total_money, image: bill.image,
-            month: bill.month, year: bill.year, is_pay: bill.is_pay, is_delete: bill.is_delete};
+            month: bill.month, year: bill.year, report: bill.report, is_pay: bill.is_pay, is_delete: bill.is_delete};
         res.status(200).json({data: result});
     } catch (error) {
         console.log("errors: ",error);
@@ -33,6 +33,7 @@ module.exports.getAllByIsPayStatus = async (req, res, next) =>{
                 image: bills[i].image,
                 month: bills[i].month,
                 year: bills[i].year,
+                report: bills[i].report,
                 total_money: bills[i].total_money,
                 is_pay: bills[i].is_pay,
                 is_delete: bills[i].is_delete
@@ -52,7 +53,7 @@ module.exports.getBillById = async (req, res, next) =>{
         const apart = await apartServices.getApartmentById(bill.apart_id);
         const result = {id: bill._id, apart_id: bill.apart_id, apart_name: apart.name, electric_bill: bill.electric_bill,
             water_bill: bill.water_bill, other_bill: bill.other_bill, total_money: bill.total_money, image: bill.image,
-            month: bill.month, year: bill.year, is_pay: bill.is_pay, is_delete: bill.is_delete};
+            month: bill.month, year: bill.year, report: bill.report, is_pay: bill.is_pay, is_delete: bill.is_delete};
         res.status(200).json({data: result});
     } catch (error) {
         console.log("errors: ",error);
@@ -67,7 +68,7 @@ module.exports.updateImage = async (req, res, next) =>{
         const apart = await apartServices.getApartmentById(bill.apart_id);
         const result = {id: bill._id, apart_id: bill.apart_id, apart_name: apart.name, electric_bill: bill.electric_bill,
             water_bill: bill.water_bill, other_bill: bill.other_bill, total_money: bill.total_money, image: bill.image,
-            month: bill.month, year: bill.year, is_pay: bill.is_pay, is_delete: bill.is_delete};
+            month: bill.month, year: bill.year, report: bill.report, is_pay: bill.is_pay, is_delete: bill.is_delete};
         res.status(200).json({data: result});
     } catch (error) {
         console.log("errors: ",error);
