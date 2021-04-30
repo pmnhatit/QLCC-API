@@ -8,6 +8,8 @@ router.get('/all-aparts', passPort.authenticate('jwt', {session: false}), apartC
 
 router.get('/all-aparts/:user_id', passPort.authenticate('jwt',{session: false}), apartController.getApartmentByIdUser);
 
+router.get('/aparts-empty', passPort.authenticate('jwt',{session: false}), apartController.getAllApartsEmpty);
+
 router.get('/:id', passPort.authenticate('jwt',{session: false}), apartController.getApartmentById);
 
 module.exports = router;

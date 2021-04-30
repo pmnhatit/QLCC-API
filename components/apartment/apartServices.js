@@ -21,11 +21,11 @@ module.exports.getApartmentsByIdUser = async (user_id) =>{
     }
     return aparts;
 }
-//chua dung
-module.exports.getAllApartsForRent = async ()=>{
+module.exports.getAllApartsEmpty = async ()=>{
     const aparts = await apartmentModel.find({'status': 1, 'is_delete': false});
     return aparts;
 }
+//chua dung
 module.exports.getApartsByStatus = async (status) =>{
     const aparts = await apartmentModel.find({'status': status, 'is_delete': false});
     return aparts;
