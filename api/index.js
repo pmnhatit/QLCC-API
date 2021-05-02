@@ -13,6 +13,7 @@ const block = require('../components/block');
 const pushNoti = require('../components/pushNotification');
 const uploadv2 = require('../components/uploadImageV2');
 const allBill = require('../components/allBill');
+const billNoti = require('../components/billNotifiction');
 
 router.use('/auth', auth);
 
@@ -39,5 +40,7 @@ router.use('/push-noti', pushNoti);
 router.use('/uploadv2', uploadv2);
 
 router.use('/all-bill', allBill);
+
+router.use('/bill-noti', billNoti);
 
 module.exports = router;

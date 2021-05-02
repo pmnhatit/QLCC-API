@@ -5,7 +5,7 @@ const notiModel = require('./notification');
 module.exports.getAllNotification = async (page, limit)=>{
     const sk = (page-1)*limit;
     const l = parseInt(limit);
-    const result = notiModel.find({'is_delete': false},
+    const result = await notiModel.find({'is_delete': false},
         null,{
             skip: sk,
             limit: l
@@ -15,7 +15,7 @@ module.exports.getAllNotification = async (page, limit)=>{
 module.exports.getNotificationByUserId = async (user_id, page, limit) =>{
     const sk = (page-1)*limit;
     const l = parseInt(limit);
-    const result = notiModel.find({'receivers.user_id': user_id, 'is_delete': false},null,
+    const result = await notiModel.find({'receivers.user_id': user_id, 'is_delete': false},null,
         {
             skip: sk,
             limit: l
