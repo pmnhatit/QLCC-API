@@ -20,6 +20,17 @@ module.exports.getNotificationByUserId = async (req, res, next) =>{
         res.status(500).json(500);
     }
 }
+module.exports.getNotiUnreadByUserId = async (req, res, next) =>{
+    try {
+        const {user_id} = req.params;
+        const notices = await notiServices.getNotiUnreadByUserId(user_id);
+        const num = notices.length;
+        res.status(200).json({num_unread: num});
+    } catch (error) {
+        console.log("errors: ", error);
+        res.status(500).json(500);
+    }
+}
 //UPDATE
 module.exports.updateIsReadStatus = async (req, res, next) =>{
     try {

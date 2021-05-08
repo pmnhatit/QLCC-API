@@ -23,6 +23,11 @@ module.exports.getNotificationByUserId = async (user_id, page, limit) =>{
     console.log(result);
     return result;
 }
+module.exports.getNotiUnreadByUserId = async (user_id) =>{
+    const query = {'receivers': {$elemMatch: {'user_id': user_id, 'is_read': false}}, 'is_delete': false};
+    const notices = await notiModel.find(query);
+    return notices;
+}
 //UPDATE
 module.exports.changeIsReadStatus = async (notice_id, user_id, status)=>{
     mongoose.set('useFindAndModify', false);
