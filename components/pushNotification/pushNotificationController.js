@@ -11,10 +11,9 @@ module.exports.createNotice = async (req, res, next) =>{
         }
         const notificationData = {
             title: title,
-            body: body,
-            type: type
+            body: body
         };
-        services.sendMessageToDevices(tokens, notificationData);
+        services.sendMessageToDevices(tokens, notificationData, type);
         res.status(200).json();
     } catch (error) {
         console.log("errors: ",error);
