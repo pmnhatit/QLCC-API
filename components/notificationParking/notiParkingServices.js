@@ -8,7 +8,7 @@ module.exports.getNoticeById = async (notice_id) =>{
     return result;
 }
 module.exports.getNoticesByUserId = async (user_id) =>{
-    const result = await notiParkingModel.find({'receiver': user_id, 'is_delete': false}).sort({$natural: -1});;
+    const result = await notiParkingModel.find({$or:[{'receiver': user_id}, {'author': user_id}], 'is_delete': false}).sort({$natural: -1});;
     return result;
 }
 //CREATE
