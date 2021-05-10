@@ -6,6 +6,8 @@ const notiParkingController = require('./notiParkingController');
 
 router.get('/all/:user_id', passPort.authenticate('jwt',{session: false}), notiParkingController.getNoticesByUserId);
 
+router.get('/unread/:user_id', passPort.authenticate('jwt',{session: false}), notiParkingController.getNoticesUnread);
+
 router.get('/notice/:notice_id', passPort.authenticate('jwt',{session: false}), notiParkingController.getNoticeById);
 
 router.post('/create', passPort.authenticate('jwt',{session: false}), notiParkingController.createNotice);

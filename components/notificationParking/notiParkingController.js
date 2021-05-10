@@ -29,6 +29,16 @@ module.exports.getNoticesByUserId = async (req, res, next) =>{
         res.status(500).json(error);
     }
 }
+module.exports.getNoticesUnread = async (req, res, next) =>{
+    try {
+        const {user_id} = req.params;
+        const notices = await notiParkingServices.getNoticesUnread(user_id);
+        res.status(200).json({unread: notices.length});
+    } catch (error) {
+        console.log("errors: ", error);
+        res.status(500).json(error);
+    }
+}
 //CREATE
 module.exports.createNotice = async (req, res, next) =>{
     try {
