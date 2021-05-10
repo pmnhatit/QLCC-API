@@ -14,6 +14,7 @@ const pushNoti = require('../components/pushNotification');
 const uploadv2 = require('../components/uploadImageV2');
 const allBill = require('../components/allBill');
 const billNoti = require('../components/billNotifiction');
+const notiParking = require('../components/notificationParking');
 
 router.use('/auth', auth);
 
@@ -42,5 +43,7 @@ router.use('/uploadv2', uploadv2);
 router.use('/all-bill', allBill);
 
 router.use('/bill-noti', billNoti);
+
+router.use('/noti-parking', notiParking);
 
 module.exports = router;
