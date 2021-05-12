@@ -29,7 +29,10 @@ module.exports.getRepairNoticeByStatus = async (user_id, page, limit, status) =>
 }
 //CREATE
 module.exports.createRepairNotice = async (title, content, author, image) =>{
-    const create_date = new Date().toLocaleString();
+    const d = new Date();
+    const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+    const nd = new Date(utc + (3600000*7));
+    const create_date = nd.toLocaleString();
     const newRepairNotice = new repairModel({title, content, create_date,
         author, image});
     return await newRepairNotice.save();
