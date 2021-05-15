@@ -9,6 +9,7 @@ jwtOptions.secretOrKey = process.env.KEY_SECRET;
 const authServices = require('./authServices');
 const apartmentServices = require('../apartment/apartServices');
 const blockServices = require('../block/blockServices');
+const {validateGetUserById, validateChangePass} = require('../../services/validation/userValidation');
 
 module.exports.login = async (req, res, next) =>{
     const user = req.user;
@@ -47,6 +48,7 @@ module.exports.login = async (req, res, next) =>{
 //GET
 module.exports.getUserById = async (req, res, next) =>{
     try {
+        await validateGetUserById(res, req.params);
         const {user_id} = req.params;
         const user = await authServices.getUserById(user_id);
         //Lay ten cua can ho
@@ -137,14 +139,20 @@ module.exports.updateTokenDevice = async (req, res, next) =>{
     }
 }
 module.exports.changePassword = async (req, res, next) =>{
+    
     try {
-        const {user_id, new_pass, old_pass} = req.body;
-        const check = await authServices.checkOldPassword(user_id, old_pass);
-        if(check==false){
-            res.status(400).json({message: "Current password is incorrect!"});
+        const valid = await validateChangePass(req.body);
+        if(valid.error){
+            res.status(400).json({message: "Parameter incorrect"});
         }else{
-            const new_user = await authServices.changePassword(user_id, new_pass);
-            res.status(200).json({data: new_user});
+            const {user_id, new_pass, old_pass} = req.body;
+            const check = await authServices.checkOldPassword(user_id, old_pass);
+            if(check==false){
+                res.status(400).json({message: "Current password is incorrect!"});
+            }else{
+                const new_user = await authServices.changePassword(user_id, new_pass);
+                res.status(200).json({data: new_user});
+            }
         }
     } catch (error) {
         console.log("errors: ",error);

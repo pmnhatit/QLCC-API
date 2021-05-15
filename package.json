@@ -9,6 +9,7 @@
     "deploy": "git push heroku master"
   },
   "dependencies": {
+    "@hapi/joi": "^17.1.1",
     "aws-sdk": "^2.883.0",
     "bcryptjs": "^2.4.3",
     "cloudinary": "^1.25.0",
@@ -18,8 +19,9 @@
     "dotenv": "^8.2.0",
     "express": "~4.16.1",
     "firebase-admin": "^9.5.0",
-    "hbs": "^4.1.1",
+    "hbs": "^4.1.2",
     "http-errors": "~1.6.3",
+    "joi-objectid": "^3.0.1",
     "jsonwebtoken": "^8.5.1",
     "mongoose": "^5.11.13",
     "morgan": "~1.9.1",
@@ -27,7 +29,6 @@
     "passport": "^0.4.1",
     "passport-jwt": "^4.0.0",
     "passport-local": "^1.0.0",
-    "socket.io": "^2.3.0",
     "uuid": "^8.3.2"
   }
 }
