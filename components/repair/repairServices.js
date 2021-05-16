@@ -27,14 +27,23 @@ module.exports.getRepairNoticeByStatus = async (user_id, page, limit, status) =>
     }).sort({$natural: -1});
     return result;
 }
+module.exports.getRepairNotices = async (data) =>{
+    const {...query} = data;
+    query.is_delete = false;
+    const result = await repairModel.find(query,
+        null,
+        {
+            sort: {create_date: -1}
+        });
+        return result;
+}
 //CREATE
-module.exports.createRepairNotice = async (title, content, author, image) =>{
+module.exports.createRepairNotice = async (title, content, author, image, type, apart_id) =>{
     const d = new Date();
     const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
     const nd = new Date(utc + (3600000*7));
-    const create_date = nd.toLocaleString();
-    const newRepairNotice = new repairModel({title, content, create_date,
-        author, image});
+    const create_date = nd.valueOf();
+    const newRepairNotice = new repairModel({title, content, create_date, type, author, apart_id, image});
     return await newRepairNotice.save();
 }
 //UPDATE
@@ -46,7 +55,15 @@ module.exports.updateIsReadStatus = async(notice_id, user_status) =>{
         new: true
     })
     return result;
-    
+}
+module.exports.updateEvaluationRepair = async (notice_id, comment, image, like_status) =>{
+    mongoose.set('useFindAndModify', false);
+    const result = await repairModel.findOneAndUpdate({'_id': notice_id, 'is_delete': false}, 
+    {'evaluation.is_evaluate': true, 'evaluation.comment': comment, 'evaluation.image': image, 'evaluation.is_like': like_status},
+    {
+        new: true
+    })
+    return result;
 }
 //DELETE
 module.exports.deleteRepairNotice = async (notice_id) =>{
