@@ -18,18 +18,8 @@ module.exports.getNoticesUnread = async (user_id) =>{
 //CREATE
 module.exports.createNotice = async (user_id, title, content, image) =>{
     const receiver = "admin0";
-    // create Date object for current location
     const d = new Date();
-
-    // convert to msec
-    // subtract local time zone offset
-    // get UTC time in msec
-    const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-
-    // create new Date object for different city
-    // using supplied offset
-    const nd = new Date(utc + (3600000*7));
-    const create_date = nd.valueOf();
+    const create_date = d.valueOf();
     const notice = new notiParkingModel({title, content, create_date, image, author: user_id, receiver, is_read_admin: false, is_read_user: true, type: 0});
     return await notice.save();
 }
