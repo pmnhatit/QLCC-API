@@ -12,9 +12,17 @@ var otherBillSchema = new mongoose.Schema({
         type: Number,
         default: 0
     },//phi khac
+    total_money: {
+        type: Number,
+        default: 0
+    },
     month: Number,
     year: Number,
     note: String,//ghi chu
+    is_pay:{
+        type: Boolean,
+        default: false
+    },
     is_delete:{
         type: Boolean,
         default: false

@@ -29,10 +29,7 @@ module.exports.createNotice = async (user_id, title, content, image) =>{
     // create new Date object for different city
     // using supplied offset
     const nd = new Date(utc + (3600000*7));
-
-    // return time as a string
-    console.log( nd.toLocaleString());
-    const create_date = nd.toLocaleString();
+    const create_date = nd.valueOf();
     const notice = new notiParkingModel({title, content, create_date, image, author: user_id, receiver, is_read_admin: false, is_read_user: true, type: 0});
     return await notice.save();
 }

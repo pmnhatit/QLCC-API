@@ -5,6 +5,9 @@ var db = mongoose.connection;
 var apartmentSchema = new mongoose.Schema({
     name: String,
     block: String,
+    floor: {
+        type: Number
+    },
     area: Number,
     direction: {
         type: String//Huong nha
@@ -20,6 +23,16 @@ var apartmentSchema = new mongoose.Schema({
         type: Number,
         default: 1
     },//1: con trong | 2: da thue | 3: da ban
+    owner: {//id chu can ho
+        id:{
+            type: String,
+            default: ""
+        },
+        is_active:{
+            type: Boolean,
+            default: true
+        }
+    },
     is_delete: {
         type: Boolean,
         default: false
