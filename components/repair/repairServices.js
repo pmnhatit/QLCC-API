@@ -32,6 +32,15 @@ module.exports.getRepairNotices = async (data, apart_id) =>{
     query.is_delete = false;
     query.apart_id = apart_id;
     console.log(query);
+    var timestamp = 1621375470052;
+    var date = new Date(timestamp);
+
+    console.log("Date: "+date.getDate()+
+        "/"+(date.getMonth()+1)+
+        "/"+date.getFullYear()+
+        " "+date.getHours()+
+        ":"+date.getMinutes()+
+        ":"+date.getSeconds());
     const result = await repairModel.find(query,
         null,
         {
@@ -42,9 +51,18 @@ module.exports.getRepairNotices = async (data, apart_id) =>{
 //CREATE
 module.exports.createRepairNotice = async (title, content, author, image, type, apart_id) =>{
     const d = new Date();
-    const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
-    const nd = new Date(utc + (3600000*7));
-    const create_date = nd.valueOf();
+    // const utc = d.getTime() + (d.getTimezoneOffset() * 60000);
+    // const nd = new Date(utc + (3600000));
+    // const create_date = nd.valueOf();
+    const create_date = d.valueOf();
+    var date = new Date(create_date);
+
+    console.log("Date: "+date.getDate()+
+        "/"+(date.getMonth()+1)+
+        "/"+date.getFullYear()+
+        " "+date.getHours()+
+        ":"+date.getMinutes()+
+        ":"+date.getSeconds());
     const newRepairNotice = new repairModel({title, content, create_date, type, author, apart_id, image});
     return await newRepairNotice.save();
 }
