@@ -27,15 +27,17 @@ module.exports.getRepairNoticeByStatus = async (user_id, page, limit, status) =>
     }).sort({$natural: -1});
     return result;
 }
-module.exports.getRepairNotices = async (data) =>{
+module.exports.getRepairNotices = async (data, apart_id) =>{
     const {...query} = data;
     query.is_delete = false;
+    query.apart_id = apart_id;
+    console.log(query);
     const result = await repairModel.find(query,
         null,
         {
             sort: {create_date: -1}
         });
-        return result;
+    return result;
 }
 //CREATE
 module.exports.createRepairNotice = async (title, content, author, image, type, apart_id) =>{

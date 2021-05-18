@@ -11,6 +11,8 @@ router.get('/all/:user_id/:page/:limit/:status', passPort.authenticate('jwt',{se
 
 router.get('/notices', passPort.authenticate('jwt',{session: false}), repairController.getRepairNotices);
 
+router.get('/count-notices/:apart_id', passPort.authenticate('jwt',{session: false}), repairController.countRepairNotices);
+
 router.get('/:notice_id', passPort.authenticate('jwt',{session: false}), repairController.getRepairNoticeById);
 
 router.post('/add', passPort.authenticate('jwt',{session: false}), repairController.createRepairNotice);
