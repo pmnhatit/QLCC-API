@@ -42,7 +42,7 @@ module.exports.getRepairNotices = async (req, res, next) =>{
 module.exports.countRepairNotices = async (req, res, next) =>{
     try {
         const {apart_id} = req.params;
-        const notices = await repairServices.getRepairNotices(req.query, apart_id);
+        const notices = await repairServices.countRepairNotices(req.query, apart_id);
         res.status(200).json({count: notices.length});
     } catch (error) {
         console.log("errors: ", error);
