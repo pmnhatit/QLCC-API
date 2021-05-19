@@ -71,7 +71,7 @@ module.exports.updateIsReadStatus = async(notice_id, user_status) =>{
 module.exports.updateEvaluationRepair = async (notice_id, comment, image, like_status) =>{
     mongoose.set('useFindAndModify', false);
     const result = await repairModel.findOneAndUpdate({'_id': notice_id, 'is_delete': false}, 
-    {'evaluation.is_evaluate': true, 'evaluation.comment': comment, 'evaluation.image': image, 'evaluation.is_like': like_status},
+    {'evaluation.is_evaluate': true, 'evaluation.comment': comment, 'evaluation.image': image, 'evaluation.is_like': like_status, 'is_read_admin': false},
     {
         new: true
     })
