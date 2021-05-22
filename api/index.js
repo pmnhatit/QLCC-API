@@ -15,6 +15,8 @@ const uploadv2 = require('../components/uploadImageV2');
 const allBill = require('../components/allBill');
 const billNoti = require('../components/billNotifiction');
 const notiParking = require('../components/notificationParking');
+const service = require('../components/service');
+const registerService = require('../components/registerService');
 
 router.use('/auth', auth);
 
@@ -45,5 +47,9 @@ router.use('/all-bill', allBill);
 router.use('/bill-noti', billNoti);
 
 router.use('/noti-parking', notiParking);
+
+router.use('/service', service);
+
+router.use('/register-service', registerService);
 
 module.exports = router;
