@@ -6,6 +6,6 @@ const serviceController = require('./service.Controller');
 
 router.get('/all-services', passPort.authenticate('jwt',{session: false}), serviceController.getServices);
 
-router.put('/update-registed', passPort.authenticate('jwt',{session: false}), serviceController.updateRegisted);
+router.put('/update-registed', passPort.authenticate('jwt',{session: false}), serviceController.updateRegisted);//khong can
 
 module.exports = router;
