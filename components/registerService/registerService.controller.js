@@ -3,8 +3,7 @@ const registerService = require('./registerService.services');
 //GET
 module.exports.getRegisterService = async (req, res, next) =>{
     try {
-        const {user_id} = req.params;
-        const registers = await registerService.getRegisterService(user_id, req.query);
+        const registers = await registerService.getRegisterService(req.query);
         res.status(200).json({data: registers});
     } catch (error) {
         console.log("errors: ",error);

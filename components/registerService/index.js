@@ -4,7 +4,7 @@ const router = express.Router();
 const passPort = require('../../services/passport');
 const registerController = require('./registerService.controller');
 
-router.get('/all-register/:user_id', passPort.authenticate('jwt',{session: false}), registerController.getRegisterService);
+router.get('/all-register', passPort.authenticate('jwt',{session: false}), registerController.getRegisterService);
 
 router.post('/create', passPort.authenticate('jwt',{session: false}), registerController.createRegisterService);
 

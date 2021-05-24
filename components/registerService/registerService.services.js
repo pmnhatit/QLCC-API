@@ -3,9 +3,8 @@ const mongoose = require('mongoose');
 const registerServiceModel = require('./registerService');
 
 //GET
-module.exports.getRegisterService = async (user_id, data) =>{
+module.exports.getRegisterService = async (data) =>{
     const {...query} = data;
-    query.user_id = user_id
     query.is_delete = false;
     const result = await registerServiceModel.find(query,
         null,
