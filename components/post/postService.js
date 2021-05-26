@@ -1,3 +1,5 @@
+const mongoose = require('mongoose');
+
 const postModel = require('./post');
 
 //GET
@@ -18,4 +20,14 @@ module.exports.createPost = async (user_id, title, content, contact, images) =>{
     const status = 0, is_read = false;
     const new_post = new postModel({user_id, title, content, contact, images, create_date, status, is_read});
     return await new_post.save();
+}
+//DELETE
+module.exports.deletePost = async (post_id) =>{
+    mongoose.set('useFindAndModify', false);
+    const result = await postModel.findOneAndUpdate({'_id': post_id}, 
+    {'is_delete': true}, 
+    {
+        new: true
+    });
+    return result;
 }

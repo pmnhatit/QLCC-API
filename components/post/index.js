@@ -8,4 +8,6 @@ router.get('/all-post', passPort.authenticate('jwt',{session: false}), postContr
 
 router.post('/create', passPort.authenticate('jwt',{session: false}), postController.createPost);
 
+router.delete('/delete', passPort.authenticate('jwt',{session: false}), postController.deletePost);
+
 module.exports = router;
