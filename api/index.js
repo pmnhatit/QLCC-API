@@ -18,6 +18,7 @@ const notiParking = require('../components/notificationParking');
 const service = require('../components/service');
 const registerService = require('../components/registerService');
 const post = require('../components/post');
+const admin = require('../components/admin');
 
 router.use('/auth', auth);
 
@@ -54,5 +55,7 @@ router.use('/service', service);
 router.use('/register-service', registerService);
 
 router.use('/post', post);
+
+router.use('/admin', admin);
 
 module.exports = router;
