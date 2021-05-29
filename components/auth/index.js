@@ -16,8 +16,8 @@ router.put('/update-token-device', passPort.authenticate('jwt',{session: false})
 
 router.put('/change-pass', passPort.authenticate('jwt',{session: false}), authController.changePassword);
 
-router.put('/reset-code', passPort.authenticate('jwt',{session: false}), authController.updateResetPass);
+router.put('/reset-code', authController.updateResetPass);
 
-router.put('/reset-password', passPort.authenticate('jwt',{session: false}), authController.resetPass);
+router.put('/reset-password', authController.resetPass);
 
 module.exports = router;
