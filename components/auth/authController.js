@@ -162,8 +162,8 @@ module.exports.changePassword = async (req, res, next) =>{
 //RESET PASSWORD
 module.exports.updateResetPass = async (req, res, next) =>{
     try {
-        const {username, email} = req.body;
-        await authServices.updateResetCode(res, username, email);
+        const {username} = req.body;
+        await authServices.updateResetCode(res, username);
     } catch (error) {
         console.log("errors: ",error);
         res.status(500).json(error);

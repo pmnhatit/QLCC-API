@@ -69,9 +69,10 @@ module.exports.changePassword = async (user_id, password) =>{
     return result;
 }
 //RESET CODE
-module.exports.updateResetCode = async (res, username, email) =>{
-    
-    const code = Math.floor((Math.random() * (10000-1000)) + 1000);
+module.exports.updateResetCode = async (res, username) =>{
+    const user = await this.getUserByUsername(username);
+    if(user){
+        const code = Math.floor((Math.random() * (10000-1000)) + 1000);
     const content = `Hello this is apartment management mail system, this is code to reset your password: <h3>${code}<h3><br>This code will expire after 24h!`;
     const smtpTransport = nodemailer.createTransport({
         service: "Gmail",
@@ -82,7 +83,7 @@ module.exports.updateResetCode = async (res, username, email) =>{
     });
     let mailOptions;
     mailOptions = {
-        to: email,
+        to: user.email,
         subject: "Reset Password",
         html: content
     }
@@ -95,15 +96,6 @@ module.exports.updateResetCode = async (res, username, email) =>{
             const d = new Date();
             d.setDate(d.getDate() + 1);
             const time_reset = d.valueOf();
-            var timestamp = time_reset;
-            var date = new Date(timestamp);
-
-            console.log("Date: "+date.getDate()+
-                "/"+(date.getMonth()+1)+
-                "/"+date.getFullYear()+
-                " "+date.getHours()+
-                ":"+date.getMinutes()+
-                ":"+date.getSeconds());
             mongoose.set('useFindAndModify', false);
             const result = await authModel.findOneAndUpdate({'username': username},
             {'reset_code': code, 'time_reset_code': time_reset},
@@ -113,7 +105,9 @@ module.exports.updateResetCode = async (res, username, email) =>{
             return res.status(200).json();
         }
     });
-    
+    }else{
+        res.status(400).json({message:"Username incorrect!"});
+    }
 }
 module.exports.resetPassword = async (res, username, new_pass, code) =>{
     
@@ -122,24 +116,6 @@ module.exports.resetPassword = async (res, username, new_pass, code) =>{
         return res.status(400).json({message: "User incorrect!"});
     }else{
         const d = new Date().valueOf();
-        console.log(d);
-        var date = new Date(d);
-
-            console.log("Date: "+date.getDate()+
-                "/"+(date.getMonth()+1)+
-                "/"+date.getFullYear()+
-                " "+date.getHours()+
-                ":"+date.getMinutes()+
-                ":"+date.getSeconds());
-        console.log(user.time_reset_code);
-        var date1 = new Date(user.time_reset_code);
-
-            console.log("Date: "+date1.getDate()+
-                "/"+(date1.getMonth()+1)+
-                "/"+date1.getFullYear()+
-                " "+date1.getHours()+
-                ":"+date1.getMinutes()+
-                ":"+date1.getSeconds());
         if(user.reset_code==code && user.time_reset_code>d){
             let hash = bcrypt.hashSync(new_pass, bcrypt.genSaltSync(10));
             console.log(hash);
