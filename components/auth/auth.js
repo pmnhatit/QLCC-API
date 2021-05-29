@@ -3,7 +3,10 @@ var db = mongoose.connection;
 
 //create schame
 var authSchema = new mongoose.Schema({
-    username: String,
+    username: {
+        type: String,
+        trim: true
+    },
     password: String,
     name: String,
     phone: String,
@@ -29,6 +32,18 @@ var authSchema = new mongoose.Schema({
     token_device: {
         type: String,
         default: ""
+    },
+    is_active: {//danh dau co su dung app khong
+        type: Boolean,
+        default: true
+    },
+    reset_code: {
+        type: String,
+        default: ""
+    },
+    time_reset_code:{
+        type: Number,
+        default: 0
     },
     is_delete: {
         type: Boolean,

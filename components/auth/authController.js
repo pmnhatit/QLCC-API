@@ -14,7 +14,7 @@ const {validateGetUserById, validateChangePass} = require('../../services/valida
 module.exports.login = async (req, res, next) =>{
     const user = req.user;
     if(user.message==="null"){
-        res.status(401).json();
+        res.status(400).json();
     }else{
         // Generate jwt token for user, you can also add more data to sign, such as: role, birthday...
         const sign = {username: user.username, id: user.id}
@@ -39,7 +39,7 @@ module.exports.login = async (req, res, next) =>{
         }
         const infoUser = {id: user.id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
             identify_card: user.identify_card, native_place: user.native_place, apart_id: user.apartment_id, 
-            block_id: user.block_id, apart_name: apart_name, block_name: block_name,
+            block_id: user.block_id, apart_name: apart_name, block_name: block_name, is_active: user.is_active,
             license_plates: user.license_plates, token_device: user.token_device, is_delete: user.is_delete};
         res.json({token: token, infoUser: infoUser});
     }
@@ -73,7 +73,7 @@ module.exports.getUserById = async (req, res, next) =>{
         }
         const infoUser = {id: user._id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
             identify_card: user.identify_card, native_place: user.native_place, apart_id: user.apartment_id, 
-            block_id: user.block_id, block_name: block_name, apart_name: apart_name,
+            block_id: user.block_id, block_name: block_name, apart_name: apart_name, is_active: user.is_active,
             license_plates: user.license_plates, token_device: user.token_device, is_delete: user.is_delete};
             res.status(200).json({data: infoUser});
     } catch (error) {
@@ -108,7 +108,7 @@ module.exports.updateInfo = async (req, res, next) =>{
         }
         const newInfo = {id: user._id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
             identify_card: user.identify_card, native_place: user.native_place, apart_id: user.apartment_id, 
-            block_id: user.block_id, block_name: block_name, apart_name: apart_name,
+            block_id: user.block_id, block_name: block_name, apart_name: apart_name, is_active: user.is_active,
             license_plates: user.license_plates, token_device: user.token_device, is_delete: user.is_delete};
         res.status(200).json({data: newInfo});
     } catch (error) {
@@ -154,6 +154,25 @@ module.exports.changePassword = async (req, res, next) =>{
                 res.status(200).json({data: new_user});
             }
         }
+    } catch (error) {
+        console.log("errors: ",error);
+        res.status(500).json(error);
+    }
+}
+//RESET PASSWORD
+module.exports.updateResetPass = async (req, res, next) =>{
+    try {
+        const {username, email} = req.body;
+        await authServices.updateResetCode(res, username, email);
+    } catch (error) {
+        console.log("errors: ",error);
+        res.status(500).json(error);
+    }
+}
+module.exports.resetPass = async (req, res, next) =>{
+    try {
+        const {username, new_pass, code} = req.body;
+        await authServices.resetPassword(res, username, new_pass, code);
     } catch (error) {
         console.log("errors: ",error);
         res.status(500).json(error);
