@@ -1,4 +1,7 @@
 const repairServices = require('./repairServices');
+const {validateCreateRepairNotice, validateRepairId, 
+    validateUpdateEvaluationRepair, validateChangeIsRead} = require('../../services/validation/validationRepair');
+const e = require('express');
 //GET
 module.exports.getAllRepairNoticesByIdUser = async (req, res, next) =>{
     try {
@@ -53,8 +56,14 @@ module.exports.countRepairNotices = async (req, res, next) =>{
 module.exports.createRepairNotice = async (req, res, next) =>{
     try {
         const {title, content, author, image, type, apart_id} = req.body;
-        const repair_notice = await repairServices.createRepairNotice(title, content, author, image, type, apart_id);
-        res.status(200).json({data: repair_notice});
+        const valid = await validateCreateRepairNotice(req.body);
+        if(valid.error){
+            console.log(valid.error);
+            res.status(400).json({message: "Parameter incorrect!"});
+        }else{
+            const repair_notice = await repairServices.createRepairNotice(title, content, author, image, type, apart_id);
+            res.status(200).json({data: repair_notice});
+        }
     } catch (error) {
         console.log("errors: ", error);
         res.status(500).json(error);
@@ -64,8 +73,18 @@ module.exports.createRepairNotice = async (req, res, next) =>{
 module.exports.changeIsRead = async (req, res, next) =>{
     try {
         const {notice_id, user_status} = req.body;
-        const new_notice = await repairServices.updateIsReadStatus(notice_id, user_status);
-        res.status(200).json({data: new_notice});
+        const valid = await validateChangeIsRead(req.body);
+        if(valid.error){
+            console.log(valid.error);
+            res.status(400).json({message: "Parameter incorrect!"});
+        }else{
+            const new_notice = await repairServices.updateIsReadStatus(notice_id, user_status);
+            if(new_notice){
+                res.status(200).json({data: new_notice});
+            }else{
+                res.status(400).json({message: "Notice id incorrect!"});
+            }
+        }
     } catch (error) {
         console.log("errors: ", error);
         res.status(500).json(error);
@@ -74,11 +93,17 @@ module.exports.changeIsRead = async (req, res, next) =>{
 module.exports.updateEvaluationRepair = async (req, res, next) =>{
     try {
         const {notice_id, comment, image, status_like} = req.body;
-        const notice = await repairServices.updateEvaluationRepair(notice_id, comment, image, status_like);
-        if(notice==null){
+        const valid = await validateUpdateEvaluationRepair(req.body);
+        if(valid.error){
+            console.log(valid.error);
             res.status(400).json({message: "Parameter incorrect!"});
         }else{
-            res.status(200).json({data: notice});
+            const notice = await repairServices.updateEvaluationRepair(notice_id, comment, image, status_like);
+            if(notice==null){
+                res.status(400).json({message: "Parameter incorrect!"});
+            }else{
+                res.status(200).json({data: notice});
+            }
         }
     } catch (error) {
         console.log("errors: ", error);
@@ -89,8 +114,18 @@ module.exports.updateEvaluationRepair = async (req, res, next) =>{
 module.exports.deleteRepairNotice = async (req, res, next) =>{
     try {
         const {notice_id} = req.params;
-        const new_notice = await repairServices.deleteRepairNotice(notice_id);
-        res.status(200).json({data: new_notice});
+        const valid = await validateRepairId(req.params);
+        if(valid.error){
+            console.log(valid.error);
+            res.status(400).json({message: "Parameter incorrect!"});
+        }else{
+            const new_notice = await repairServices.deleteRepairNotice(notice_id);
+            if(new_notice){
+                res.status(200).json({data: new_notice});
+            }else{
+                res.status(400).json({message: "Notice id incorrect!"});
+            }
+        }
     } catch (error) {
         console.log("errors: ", error);
         res.status(500).json(error);
