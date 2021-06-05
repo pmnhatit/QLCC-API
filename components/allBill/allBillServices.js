@@ -22,17 +22,3 @@ module.exports.updateReport = async (bill_id, image) =>{
     {new: true});
     return result;
 }
-// module.exports.updateImage = async (image, bill_id) =>{
-//     mongoose.set('useFindAndModify', false);
-//     const result = await allBillModel.findOneAndUpdate({'_id': bill_id},
-//     {'image': image},
-//     {new: true});
-//     return result;
-// }
-// module.exports.changeReportStatus = async (bill_id) =>{
-//     mongoose.set('useFindAndModify', false);
-//     const result = await allBillModel.findOneAndUpdate({'_id': bill_id},
-//     {'report': true},
-//     {new: true});
-//     return result;
-// }
