@@ -43,7 +43,7 @@ module.exports.login = async (req, res, next) =>{
         const infoUser = {id: user.id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
             identify_card: user.identify_card, native_place: user.native_place, apart_id: user.apartment_id, 
             block_id: user.block_id, apart_name: apart_name, block_name: block_name, is_active: user.is_active,
-            license_plates: user.license_plates, token_device: user.token_device, is_delete: user.is_delete};
+            license_plates: user.license_plates, token_device: user.token_device, avatar: user.avatar, is_delete: user.is_delete};
         res.json({token: token, infoUser: infoUser});
     }
 }
@@ -81,7 +81,7 @@ module.exports.getUserById = async (req, res, next) =>{
             const infoUser = {id: user._id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
                 identify_card: user.identify_card, native_place: user.native_place, apart_id: user.apartment_id, 
                 block_id: user.block_id, block_name: block_name, apart_name: apart_name, is_active: user.is_active,
-                license_plates: user.license_plates, token_device: user.token_device, is_delete: user.is_delete};
+                license_plates: user.license_plates, token_device: user.token_device, avatar: user.avatar, is_delete: user.is_delete};
             res.status(200).json({data: infoUser});
         }
     } catch (error) {
@@ -122,7 +122,7 @@ module.exports.updateInfo = async (req, res, next) =>{
             const newInfo = {id: user._id, username: user.username, name: user.name, phone: user.phone, email: user.email, 
                 identify_card: user.identify_card, native_place: user.native_place, apart_id: user.apartment_id, 
                 block_id: user.block_id, block_name: block_name, apart_name: apart_name, is_active: user.is_active,
-                license_plates: user.license_plates, token_device: user.token_device, is_delete: user.is_delete};
+                license_plates: user.license_plates, token_device: user.token_device, avatar: user.avatar, is_delete: user.is_delete};
             res.status(200).json({data: newInfo});
         }
     } catch (error) {
