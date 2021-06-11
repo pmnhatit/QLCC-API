@@ -19,6 +19,10 @@ var authSchema = new mongoose.Schema({
         type: String,
         default: ""
     },
+    token_device_web: {
+        type: String,
+        default: ""
+    },
     role: {
         type: Number,//0: superadmin | 1: admin
         default: 1
