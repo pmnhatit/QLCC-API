@@ -1,5 +1,5 @@
 const otherBillModel = require('./otherBill');
-const unitPriceServices = require('../unitPrice/unitPriceServices');
+
 //GET
 module.exports.getOtherBillByApartmentId = async (id)=>{
     const result = await otherBillModel.find({'apart_id': id, 'is_delete': false});

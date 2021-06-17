@@ -1,6 +1,5 @@
 const waterBillModel = require('./waterBill');
-// const unitPriceServices = require('../unitPrice/unitPriceServices');
-const cal = require('../../services/calculate/calculate');
+
 //GET
 module.exports.getWaterBillByApartmentId = async (id)=>{
     const result = await waterBillModel.find({'apart_id': id, 'is_delete': false});
