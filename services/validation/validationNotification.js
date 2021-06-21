@@ -11,7 +11,7 @@ exports.validateGetAllNotification = async (data) =>{
 }
 exports.validateGetNotificationByUserId = async (data) =>{
     const schema = joi.object({
-        user_id: joi.objectId().required(),
+        apart_id: joi.objectId().required(),
         limit: joi.number().min(1).required(),
         page: joi.number().min(1).required()
     });
@@ -20,7 +20,7 @@ exports.validateGetNotificationByUserId = async (data) =>{
 }
 exports.validateGetNotiUnreadByUserId = async (data) =>{
     const schema = joi.object({
-        user_id: joi.objectId().required()
+        apart_id: joi.objectId().required()
     });
     const valid = await schema.validate(data);
     return valid;
@@ -28,7 +28,7 @@ exports.validateGetNotiUnreadByUserId = async (data) =>{
 exports.validateUpdateIsReadStatus = async (data) =>{
     const schema = joi.object({
         notice_id: joi.objectId().required(),
-        user_id: joi.objectId().required(),
+        apart_id: joi.objectId().required(),
         status: joi.boolean().required()
     });
     const valid = await schema.validate(data);

@@ -6,9 +6,9 @@ const notiController = require('./notiController');
 
 router.get('/all/:page/:limit', passPort.authenticate('jwt',{session: false}), notiController.getAllNotification);
 
-router.get('/user/:user_id/:page/:limit', passPort.authenticate('jwt',{session: false}), notiController.getNotificationByUserId);
+router.get('/user/:apart_id/:page/:limit', passPort.authenticate('jwt',{session: false}), notiController.getNotificationByUserId);
 
-router.get('/unread/:user_id', passPort.authenticate('jwt',{session: false}), notiController.getNotiUnreadByUserId);
+router.get('/unread/:apart_id', passPort.authenticate('jwt',{session: false}), notiController.getNotiUnreadByUserId);
 
 router.put('/change-is-read', passPort.authenticate('jwt',{session: false}), notiController.updateIsReadStatus);
 

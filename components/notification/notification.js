@@ -19,7 +19,7 @@ var notiSchema = new mongoose.Schema({
     },
     receivers: [
         {
-            user_id: {
+            apart_id: {
                 type: String
             },
             is_read: {
