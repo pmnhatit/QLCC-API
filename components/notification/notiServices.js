@@ -20,7 +20,6 @@ module.exports.getNotificationByUserId = async (apart_id, page, limit) =>{
             skip: sk,
             limit: l
         }).sort({$natural: -1});
-    console.log(result);
     return result;
 }
 module.exports.getNotiUnreadByUserId = async (apart_id) =>{
